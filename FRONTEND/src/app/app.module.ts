@@ -10,7 +10,7 @@ import { UserComponent } from './pages/user/user.component';
 import { CustomerComponent } from './pages/customer/customer.component';
 import { HealthConditionComponent } from './pages/health-condition/health-condition.component';
 import { PaymentComponent } from './pages/payment/payment.component';
-import { TrainingPlansComponent } from './pages/training-plans/training-plans.component';
+import { TrainingPlanComponent } from './pages/training-plan/training-plan.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,7 @@ import { TrainingPlansComponent } from './pages/training-plans/training-plans.co
     CustomerComponent,
     HealthConditionComponent,
     PaymentComponent,
-    TrainingPlansComponent
+    TrainingPlanComponent
   ],
   imports: [
     BrowserModule,
