@@ -11,6 +11,10 @@ import { CustomerComponent } from './pages/customer/customer.component';
 import { HealthConditionComponent } from './pages/health-condition/health-condition.component';
 import { PaymentComponent } from './pages/payment/payment.component';
 import { TrainingPlanComponent } from './pages/training-plan/training-plan.component';
+import { HeaderComponent } from './components/header/header.component';
+import { SideMenuComponent } from './components/side-menu/side-menu.component';
+import { LoginComponent } from './pages/login/login.component';
+import { ContainerComponent } from './pages/container/container.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +26,11 @@ import { TrainingPlanComponent } from './pages/training-plan/training-plan.compo
     CustomerComponent,
     HealthConditionComponent,
     PaymentComponent,
-    TrainingPlanComponent
+    TrainingPlanComponent,
+    HeaderComponent,
+    SideMenuComponent,
+    LoginComponent,
+    ContainerComponent
   ],
   imports: [
     BrowserModule,
