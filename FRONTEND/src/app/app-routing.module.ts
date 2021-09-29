@@ -16,13 +16,15 @@ const routes: Routes = [
     {path: 'recover', component: RecoverFormComponent}
   ]},
   {path: '', component: ContainerComponent, children: [
+    {path: '', redirectTo: '/home', pathMatch: 'full'},
     {path: 'home', component: HomeComponent},
     {path: 'users', component: UserComponent},
     {path: 'health-conditions', component: HealthConditionComponent},
     {path: 'payments', component: PaymentComponent},
     {path: 'taining-plans', component: TrainingPlanComponent},
     {path: 'logout', redirectTo: '/login', pathMatch: 'full'}
-  ]}
+  ]},
+  {path: '**', redirectTo: '/login', pathMatch: 'full'}
 ];
 
 @NgModule({
