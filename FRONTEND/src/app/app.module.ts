@@ -15,6 +15,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { SideMenuComponent } from './components/side-menu/side-menu.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ContainerComponent } from './pages/container/container.component';
+import { UserFormComponent } from './components/user-form/user-form.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ContainerComponent } from './pages/container/container.component';
     HeaderComponent,
     SideMenuComponent,
     LoginComponent,
-    ContainerComponent
+    ContainerComponent,
+    UserFormComponent
   ],
   imports: [
     BrowserModule,

@@ -1,8 +1,7 @@
 <app-header></app-header>
 <div class="d-flex" id="wrapper">
   <div class="bg-light border-end" id="sidebar-wrapper">
-    <!-- <div class="sidebar-heading">Gym </div> -->
-    <div class="list-group list-group-flush mt-4">
+    <div class="list-group list-group-flush mt-2">
       <a href="/home" class="list-group-item list-group-item-action bg-light">Inicio</a>
       <a href="/users" class="list-group-item list-group-item-action bg-light">Usuarios</a>
       <a href="/health-conditions" class="list-group-item list-group-item-action bg-light">Condiciones de Salud</a>
@@ -39,8 +38,16 @@
         </ul>
       </div>
     </nav> -->
+    <div class="container-fluid mb-3">
+      <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+        <button class="btn btn-primary" id="menu-toggle">=</button>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Library</li>
+        </ol>
+      </nav>
+    </div>
     <div class="container-fluid">
-      <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
       <router-outlet></router-outlet>
     </div>
   </div>

@@ -1,9 +1,20 @@
-const express = require('express');
-const app = express();
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
 
-app.get('/', function (req, res) {
-  console.log('Llamada a hello world...');
-  res.send('hello world');
-})
+var indexRouter = require('./routes/index');
+var apiRouter = require('./routes/api')
 
-app.listen(3000);
+var app = express();
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', indexRouter);
+app.use('/api', apiRouter);
+
+module.exports = app;
