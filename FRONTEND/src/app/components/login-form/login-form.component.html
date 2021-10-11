@@ -1,13 +1,13 @@
 <div class="login-form">
-    <form>
+    <form [formGroup]="loginForm">
        <div class="form-group mt-3">
           <label>Usuario o Correo Electrónico</label>
-          <input type="text" class="form-control" placeholder="usuario@ejemplo.com">
+          <input type="text" class="form-control" placeholder="usuario@ejemplo.com" formControlName="user">
        </div>
        <div class="form-group mt-3">
           <label>Contraseña</label>
-          <input type="password" class="form-control" placeholder="Contraseña">
+          <input type="password" class="form-control" placeholder="Contraseña" formControlName="password">
        </div>
-         <a [routerLink]="['/home']" class="btn btn-black mt-3 mr-3">Ingresar</a>
+         <button type="button" (click)="login()" class="btn btn-black mt-3 mr-3">Ingresar</button>
     </form>
  </div>

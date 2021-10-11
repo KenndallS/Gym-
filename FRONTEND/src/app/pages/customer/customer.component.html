@@ -1,1 +1,92 @@
-<p>customer works!</p>
+<form class="d-grid gap-2 d-md-flex justify-content-md-end" [formGroup]="searchForm">
+    <div class="col">
+        <input class="form-control" type="text" id="search" placeholder="Cédula o nombre..." formControlName="search">
+    </div>
+    <button type="button" class="btn btn-primary" (click)="filterCustomers()">O Buscar</button>
+    <button type="button" class="btn btn-success" (click)="newCustomer(modal_customer)">+ Nuevo</button>
+</form>
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Cédula</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Plan de entrenamiento</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let customer of customers; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ customer.Card }}</td>
+            <td>{{ customer.FirstName }}</td>
+            <td>{{ customer.LastName }}</td>
+            <td>{{ customer.Inscription }}</td>
+            <td>{{ customer.Status }}</td>
+            <td>
+                <button class="btn btn-outline-secondary" (click)="editCustomer(modal_customer, customer)">Editar</button>
+                <button class="btn btn-outline-danger" (click)="deleteCustomer(customer)">{{ ((customer.Status === 'A')?'Deshabilitar':'Habilitar')}}</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<ng-template #modal_customer let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Cliente</h4>
+        <button type="button" class="btn-close" (click)="d('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form class="row" [formGroup]="customerForm">
+            <input type="number" formControlName="Id" hidden>
+            <div class="col-8">
+                <label for="Card">Cédula</label>
+                <input type="text" class="form-control" id="Card" formControlName="Card">
+            </div>
+            <div class="col-4">
+                <label for="Gender">Género</label>
+                <select class="form-select" id="Gender" formControlName="Gender">
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                    <option value="O" selected>Otro</option>
+                </select>
+            </div>
+            <div class="col-6">
+                <label for="FirstName">Nombre</label>
+                <input type="text" class="form-control" id="FirstName" formControlName="FirstName">
+            </div>
+            <div class="col-6">
+                <label for="LastName">Apillidos</label>
+                <input type="text" class="form-control" id="LastName" formControlName="LastName">
+            </div>
+            <div class="col-6">
+                <label for="PhoneNumber">Teléfono</label>
+                <input type="text" class="form-control" id="PhoneNumber" formControlName="PhoneNumber">
+            </div>
+            <div class="col-6">
+                <label for="Birthday">Fecha de nacimiento</label>
+                <input type="date" class="form-control" id="Birthday" formControlName="Birthday">
+            </div>
+            <div class="col-12">
+                <label for="TrainingPlan">Plan de entrenamiento</label>
+                <select class="form-select" id="TrainingPlan">
+                    <option value="" selected hidden>Sin plan</option>
+                </select>
+            </div>
+            <div class="col-4">
+                <label for="Status">Estado</label>
+                <select class="form-select" id="Status" formControlName="Status">
+                    <option value="A" selected>Activo</option>
+                    <option value="I">Inactivo</option>
+                </select>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" (click)="saveCustomer()">Guardar</button>
+        <button type="button" class="btn btn-outline-danger" (click)="d('Cancel click')">Cancelar</button>
+    </div>
+</ng-template>
+  

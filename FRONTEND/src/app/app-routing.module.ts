@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { RecoverFormComponent } from './components/recover-form/recover-form.component';
 import { ContainerComponent } from './pages/container/container.component';
+import { CustomerComponent } from './pages/customer/customer.component';
 import { HealthConditionComponent } from './pages/health-condition/health-condition.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -19,6 +20,7 @@ const routes: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
     {path: 'home', component: HomeComponent},
     {path: 'users', component: UserComponent},
+    {path: 'customers', component: CustomerComponent},
     {path: 'health-conditions', component: HealthConditionComponent},
     {path: 'payments', component: PaymentComponent},
     {path: 'taining-plans', component: TrainingPlanComponent},

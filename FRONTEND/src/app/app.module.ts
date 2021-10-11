@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,10 +14,12 @@ import { HealthConditionComponent } from './pages/health-condition/health-condit
 import { PaymentComponent } from './pages/payment/payment.component';
 import { TrainingPlanComponent } from './pages/training-plan/training-plan.component';
 import { HeaderComponent } from './components/header/header.component';
-import { SideMenuComponent } from './components/side-menu/side-menu.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ContainerComponent } from './pages/container/container.component';
 import { UserFormComponent } from './components/user-form/user-form.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
+
 
 @NgModule({
   declarations: [
@@ -29,16 +33,18 @@ import { UserFormComponent } from './components/user-form/user-form.component';
     PaymentComponent,
     TrainingPlanComponent,
     HeaderComponent,
-    SideMenuComponent,
     LoginComponent,
     ContainerComponent,
     UserFormComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    NgbModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

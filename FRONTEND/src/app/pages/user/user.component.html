@@ -1,27 +1,66 @@
-<form class="d-grid gap-2 d-md-flex justify-content-md-end">
+<form class="d-grid gap-2 d-md-flex justify-content-md-end" [formGroup]="searchForm">
     <div class="col">
-        <input class="form-control" type="text" id="search" placeholder="Cédula o nombre...">
+        <input class="form-control" type="text" id="search" placeholder="Usuario o descripción..." formControlName="search">
     </div>
-    <button class="btn btn-primary " type="button">O Buscar</button>
-    <button class="btn btn-success" type="button">+ Nuevo</button>
+    <button type="button" class="btn btn-primary" (click)="filterUsers()">O Buscar</button>
+    <button type="button" class="btn btn-success" (click)="newUser(modal_user)">+ Nuevo</button>
 </form>
 <table class="table table-bordered mt-3">
     <thead>
         <tr>
             <th>#</th>
-            <th>Nombre</th>
-            <th>Edad</th>
-            <th>Plan de entrenamiento</th>
+            <th>Usuario</th>
+            <th>Descripción</th>
+            <th>Estado</th>
             <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+        <tr *ngFor="let user of users; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.description }}</td>
+            <td>{{ user.status }}</td>
+            <td>
+                <button class="btn btn-outline-secondary" (click)="editUser(modal_user, user)">Editar</button>
+                <button class="btn btn-outline-danger" (click)="deleteUser(user)">{{ ((user.status === 'A')?'Deshabilitar':'Habilitar')}}</button>
+            </td>
         </tr>
     </tbody>
 </table>
+
+<ng-template #modal_user let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Usuario</h4>
+        <button type="button" class="btn-close" (click)="d('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form class="row" [formGroup]="userForm">
+            <input type="number" formControlName="id" hidden>
+            <div class="col-6">
+                <label for="username">Nombre usuario</label>
+                <input type="text" class="form-control" id="username" formControlName="username">
+            </div>
+            <div class="col-6">
+                <label for="passwordhash">Contraseña</label>
+                <input type="text" class="form-control" id="passwordhash" formControlName="passwordhash">
+            </div>
+            <div class="col-12">
+                <label for="description">Descripción</label>
+                <input type="text" class="form-control" id="description" formControlName="description">
+            </div>
+            <div class="col-4">
+                <label for="status">Estado</label>
+                <select class="form-select" id="status" formControlName="status">
+                    <option value="A" selected>Activo</option>
+                    <option value="I">Inactivo</option>
+                </select>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" (click)="saveUser()">Guardar</button>
+        <button type="button" class="btn btn-outline-danger" (click)="d('Cancel click')">Cancelar</button>
+    </div>
+</ng-template>
+  

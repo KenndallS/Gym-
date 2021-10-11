@@ -7,14 +7,22 @@ import * as $ from 'jquery';
   styleUrls: ['./container.component.scss']
 })
 export class ContainerComponent implements OnInit {
+  // ES NECESARIO REDEFINIRLO CON UN SERVICIO
+  path: { link: string, name: string };
 
-  constructor() { }
+  constructor() { 
+    this.path = {
+      link: 'home',
+      name: 'Inicio'
+    };
+  }
 
   ngOnInit(): void {
-    //Toggle Click Function
-    $("#menu-toggle").click(function(e) {
-      e.preventDefault();
-      $("#wrapper").toggleClass("toggled");
-    });
+
+  }
+
+  toggleMenu(event: any): void{
+    event.preventDefault();
+    $("#wrapper").toggleClass("toggled");
   }
 }
