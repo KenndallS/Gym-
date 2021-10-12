@@ -1,6 +1,6 @@
 <form class="d-grid gap-2 d-md-flex justify-content-md-end" [formGroup]="searchForm">
     <div class="col">
-        <input class="form-control" type="text" id="search" placeholder="Cédula o nombre..." formControlName="search">
+        <input class="form-control" type="text" id="search" placeholder="Cédula o nombre..." formControlName="search" (keyup)="filterCustomers()">
     </div>
     <button type="button" class="btn btn-primary" (click)="filterCustomers()">O Buscar</button>
     <button type="button" class="btn btn-success" (click)="newCustomer(modal_customer)">+ Nuevo</button>

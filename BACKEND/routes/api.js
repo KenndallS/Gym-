@@ -50,8 +50,8 @@ router.delete('/user/delete/:id/:status', (req, res) => {
 router.get('/customer/all', (req, res) => {
   customerController.getAll(res);
 });
-router.get('/customer/filter', (req, res) => {
-  customerController.getFilter(res);
+router.get('/customer/filter/:filter', (req, res) => {
+  customerController.getFilter(res, req.params.filter);
 });
 router.get('/customer/id/:id', (req, res) => {
   customerController.getById(res, req.params.id);

@@ -19,7 +19,7 @@ class CustomerController {
     }
 
     getFilter(res, filter){
-        const query = `SELECT * WHERE Card LIKE '%${filter}%' OR FirstName LIKE '%${filter}%' OR LastName LIKE '%${filter}%'`;
+        const query = `SELECT * FROM customers WHERE Card LIKE '%${filter}%' OR FirstName LIKE '%${filter}%' OR LastName LIKE '%${filter}%'`;
         connection.query(query, (error, result) => {
             if(error){
                 res.json({
