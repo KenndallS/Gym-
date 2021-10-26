@@ -1,1 +1,17 @@
-<p>health-condition works!</p>
+<form class="d-grid gap-2 d-md-flex justify-content-md-end" [formGroup]="searchForm">
+    <div class="col">
+        <input class="form-control" type="text" id="search" placeholder="Número de identificación" formControlName="search" (keyup.enter)="findHealthCondition()">
+    </div>
+    <button type="button" class="btn btn-primary" (click)="findHealthCondition()">O Buscar</button>
+</form>
+<div>
+    <div class="card mt-3" *ngIf="customer">
+        <div class="card-body col-12">
+            <h5 class="card-title">{{ customer.FirstName }} {{ customer.LastName }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ customer.Card }}</h6>
+            <button type="button" class="btn btn-success" >+ Agregar registro</button>
+            <!-- (click)="newHealthCondition(modal_health_condition)" -->
+        </div>
+    </div>
+</div>
+

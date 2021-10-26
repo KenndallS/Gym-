@@ -1,6 +1,6 @@
 <form class="d-grid gap-2 d-md-flex justify-content-md-end" [formGroup]="searchForm">
     <div class="col">
-        <input class="form-control" type="text" id="search" placeholder="Cédula o nombre..." formControlName="search" (keyup)="filterCustomers()">
+        <input class="form-control" type="text" id="search" placeholder="Número de identificación o nombre..." formControlName="search" (keyup)="filterCustomers()">
     </div>
     <button type="button" class="btn btn-primary" (click)="filterCustomers()">O Buscar</button>
     <button type="button" class="btn btn-success" (click)="newCustomer(modal_customer)">+ Nuevo</button>
@@ -9,7 +9,7 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>Cédula</th>
+            <th>Número de identificación</th>
             <th>Nombre</th>
             <th>Apellidos</th>
             <!-- <th>Plan de entrenamiento</th> -->
@@ -42,7 +42,7 @@
         <form class="row" [formGroup]="customerForm">
             <input type="number" formControlName="Id" hidden>
             <div class="col-8">
-                <label for="Card">Cédula</label>
+                <label for="Card">Número de identificación</label>
                 <input type="text" class="form-control" id="Card" formControlName="Card">
             </div>
             <div class="col-4">

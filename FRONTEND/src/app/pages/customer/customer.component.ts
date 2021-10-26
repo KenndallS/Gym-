@@ -109,7 +109,7 @@ export class CustomerComponent implements OnInit {
 
   editCustomer(content: any, customer: Customer){
     if(customer){
-      this.inscriptionService.getByUserId(customer.Id).subscribe(request => {
+      this.inscriptionService.getByCustomerId(customer.Id).subscribe(request => {
         if(request.status === 'OK'){
           this.inscription = request.data;
           console.log(this.inscription);

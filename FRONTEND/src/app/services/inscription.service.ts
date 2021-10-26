@@ -27,7 +27,7 @@ export class InscriptionService {
     return this.http.get<Response<Inscription>>(url);
   }
 
-  getByUserId(id: number): Observable<Response<Inscription>>{
+  getByCustomerId(id: number): Observable<Response<Inscription>>{
     let url = `${Configuration.api}/inscription/customer/${id}`;
     return this.http.get<Response<Inscription>>(url);
   }

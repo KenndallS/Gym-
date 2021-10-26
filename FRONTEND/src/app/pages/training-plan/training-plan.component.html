@@ -1,6 +1,6 @@
 <form class="d-grid gap-2 d-md-flex justify-content-md-end" [formGroup]="searchForm">
     <div class="col">
-        <input class="form-control" type="text" id="search" placeholder="Cédula o nombre..." formControlName="search" (keyup)="filterTrainingPlans()">
+        <input class="form-control" type="text" id="search" placeholder="Nombre del plan..." formControlName="search" (keyup)="filterTrainingPlans()">
     </div>
     <button type="button" class="btn btn-primary" (click)="filterTrainingPlans()">O Buscar</button>
     <button type="button" class="btn btn-success" (click)="newTrainingPlan(modal_training_plan)">+ Nuevo</button>
@@ -9,10 +9,9 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>Cédula</th>
-            <th>Nombre</th>
-            <th>Apellidos</th>
             <th>Plan de entrenamiento</th>
+            <th>Costo</th>
+            <th>Detalles</th>
             <th>Estado</th>
             <th>Acciones</th>
         </tr>
@@ -20,8 +19,8 @@
     <tbody>
         <tr *ngFor="let trainingPlan of trainingPlans; let i = index">
             <td>{{ i + 1 }}</td>
-            <td>{{ trainingPlan.Cost }}</td>
             <td>{{ trainingPlan.Name }}</td>
+            <td>{{ trainingPlan.Cost }}</td>
             <td>{{ trainingPlan.Details }}</td>
             <td>{{ trainingPlan.Status }}</td>
             <td>
@@ -45,7 +44,7 @@
                 <input type="text" class="form-control" id="Cost" formControlName="Cost">
             </div>
             <div class="col-6">
-                <label for="Name">Nombre</label>
+                <label for="Name">Nombre del plan</label>
                 <input type="text" class="form-control" id="Name" formControlName="Name">
             </div>
             <div class="col-12">

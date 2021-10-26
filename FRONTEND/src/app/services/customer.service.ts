@@ -27,6 +27,11 @@ export class CustomerService {
     return this.http.get<Response<Customer>>(url);
   }
 
+  getByCard(card: string): Observable<Response<Customer>>{
+    let url = `${Configuration.api}/customer/card/${card}`;
+    return this.http.get<Response<Customer>>(url);
+  }
+
   save(customer: Customer): Observable<Response<Customer>>{
     let url = `${Configuration.api}/customer/save`;
     return this.http.post<Response<Customer>>(url, customer);
