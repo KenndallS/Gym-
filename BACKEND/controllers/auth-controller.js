@@ -2,7 +2,7 @@ const connection = require('../common/mysql');
 
 class AuthController {
     login(res, user, password){
-        const query = `SELECT id, username, '' as passwordHash, description, status FROM users WHERE username = '${user}' AND passwordHash = '${password}'`;
+        const query = `SELECT Id, UserName, '' as PasswordHash, Description, Status FROM Users WHERE UserName = '${user}' AND PasswordHash = '${password}'`;
         connection.query(query, (error, result) => {
             if(error){
                 res.json({

@@ -12,7 +12,7 @@
             <th>Cédula</th>
             <th>Nombre</th>
             <th>Apellidos</th>
-            <th>Plan de entrenamiento</th>
+            <!-- <th>Plan de entrenamiento</th> -->
             <th>Estado</th>
             <th>Acciones</th>
         </tr>
@@ -23,7 +23,7 @@
             <td>{{ customer.Card }}</td>
             <td>{{ customer.FirstName }}</td>
             <td>{{ customer.LastName }}</td>
-            <td>{{ customer.Inscription }}</td>
+            <!-- <td>{{ customer.Inscription }}</td> -->
             <td>{{ customer.Status }}</td>
             <td>
                 <button class="btn btn-outline-secondary" (click)="editCustomer(modal_customer, customer)">Editar</button>
@@ -71,8 +71,9 @@
             </div>
             <div class="col-12">
                 <label for="TrainingPlan">Plan de entrenamiento</label>
-                <select class="form-select" id="TrainingPlan">
+                <select class="form-select" id="TrainingPlan" formControlName="TrainingPlan">
                     <option value="" selected hidden>Sin plan</option>
+                    <option *ngFor="let trainingPlan of trainingPlans" [value]="trainingPlan.Id">{{ trainingPlan.Name }}</option>
                 </select>
             </div>
             <div class="col-4">
@@ -89,4 +90,3 @@
         <button type="button" class="btn btn-outline-danger" (click)="d('Cancel click')">Cancelar</button>
     </div>
 </ng-template>
-  

@@ -13,9 +13,10 @@ export class StorageService {
   }
 
   get(key: string): any{
-    let json = localStorage.getItem(key) || '';
-    let obj = JSON.parse(json);
-    return obj || null;
+    let json = localStorage.getItem(key) ?? '';
+    let obj = null;
+    if(json) obj = JSON.parse(json);
+    return obj;
   }
 
   clear(){

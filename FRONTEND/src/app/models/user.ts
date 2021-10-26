@@ -1,7 +1,7 @@
 export interface User {
-    id: number;
-    username: string;
-    passwordhash: string;
-    description: string;
-    status: string;
+    Id: number;
+    UserName: string;
+    PasswordHash: string;
+    Description: string;
+    Status: string;
 }

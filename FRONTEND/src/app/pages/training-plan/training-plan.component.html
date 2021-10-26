@@ -1,1 +1,68 @@
-<p>training-plan works!</p>
+<form class="d-grid gap-2 d-md-flex justify-content-md-end" [formGroup]="searchForm">
+    <div class="col">
+        <input class="form-control" type="text" id="search" placeholder="Cédula o nombre..." formControlName="search" (keyup)="filterTrainingPlans()">
+    </div>
+    <button type="button" class="btn btn-primary" (click)="filterTrainingPlans()">O Buscar</button>
+    <button type="button" class="btn btn-success" (click)="newTrainingPlan(modal_training_plan)">+ Nuevo</button>
+</form>
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Cédula</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Plan de entrenamiento</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let trainingPlan of trainingPlans; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ trainingPlan.Cost }}</td>
+            <td>{{ trainingPlan.Name }}</td>
+            <td>{{ trainingPlan.Details }}</td>
+            <td>{{ trainingPlan.Status }}</td>
+            <td>
+                <button class="btn btn-outline-secondary" (click)="editTrainingPlan(modal_training_plan, trainingPlan)">Editar</button>
+                <button class="btn btn-outline-danger" (click)="deleteTrainingPlan(trainingPlan)">{{ ((trainingPlan.Status === 'A')?'Deshabilitar':'Habilitar')}}</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<ng-template #modal_training_plan let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Plan de entrenamiento</h4>
+        <button type="button" class="btn-close" (click)="d('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form class="row" [formGroup]="trainingPlanForm">
+            <input type="number" formControlName="Id" hidden>
+            <div class="col-6">
+                <label for="Cost">Costo</label>
+                <input type="text" class="form-control" id="Cost" formControlName="Cost">
+            </div>
+            <div class="col-6">
+                <label for="Name">Nombre</label>
+                <input type="text" class="form-control" id="Name" formControlName="Name">
+            </div>
+            <div class="col-12">
+                <label for="Details">Detalles</label>
+                <input type="text" class="form-control" id="Details" formControlName="Details">
+            </div>
+            <div class="col-4">
+                <label for="Status">Estado</label>
+                <select class="form-select" id="Status" formControlName="Status">
+                    <option value="A" selected>Activo</option>
+                    <option value="I">Inactivo</option>
+                </select>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" (click)="saveTrainingPlan()">Guardar</button>
+        <button type="button" class="btn btn-outline-danger" (click)="d('Cancel click')">Cancelar</button>
+    </div>
+</ng-template>

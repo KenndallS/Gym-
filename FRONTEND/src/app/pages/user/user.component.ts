@@ -31,11 +31,11 @@ export class UserComponent implements OnInit {
     });
     this.users = [];
     this.userForm = this.formBuilder.group({
-      id: [0],
-      username: ['', Validators.required],
-      passwordhash: [''],
-      description: [''],
-      status: ['A', Validators.required]
+      Id: [0],
+      UserName: ['', Validators.required],
+      PasswordHash: [''],
+      Description: [''],
+      Status: ['A', Validators.required]
     });
   }
 
@@ -100,8 +100,8 @@ export class UserComponent implements OnInit {
 
   deleteUser(user: User){
     if(user){
-      let newStatus = ((user.status === 'A')?'I':'A');
-      this.userService.delete(user.id, newStatus).subscribe(request => {
+      let newStatus = ((user.Status === 'A')?'I':'A');
+      this.userService.delete(user.Id, newStatus).subscribe(request => {
         if(request.status === 'OK'){
           this.filterUsers();// ALERT
         } else {

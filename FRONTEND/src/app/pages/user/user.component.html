@@ -18,12 +18,12 @@
     <tbody>
         <tr *ngFor="let user of users; let i = index">
             <td>{{ i + 1 }}</td>
-            <td>{{ user.username }}</td>
-            <td>{{ user.description }}</td>
-            <td>{{ user.status }}</td>
+            <td>{{ user.UserName }}</td>
+            <td>{{ user.Description }}</td>
+            <td>{{ user.Status }}</td>
             <td>
                 <button class="btn btn-outline-secondary" (click)="editUser(modal_user, user)">Editar</button>
-                <button class="btn btn-outline-danger" (click)="deleteUser(user)">{{ ((user.status === 'A')?'Deshabilitar':'Habilitar')}}</button>
+                <button class="btn btn-outline-danger" (click)="deleteUser(user)">{{ ((user.Status === 'A')?'Deshabilitar':'Habilitar')}}</button>
             </td>
         </tr>
     </tbody>
@@ -36,22 +36,22 @@
     </div>
     <div class="modal-body">
         <form class="row" [formGroup]="userForm">
-            <input type="number" formControlName="id" hidden>
+            <input type="number" formControlName="Id" hidden>
             <div class="col-6">
-                <label for="username">Nombre usuario</label>
-                <input type="text" class="form-control" id="username" formControlName="username">
+                <label for="UserName">Nombre usuario</label>
+                <input type="text" class="form-control" id="UserName" formControlName="UserName">
             </div>
             <div class="col-6">
-                <label for="passwordhash">Contraseña</label>
-                <input type="text" class="form-control" id="passwordhash" formControlName="passwordhash">
+                <label for="PasswordHash">Contraseña</label>
+                <input type="text" class="form-control" id="PasswordHash" formControlName="PasswordHash">
             </div>
             <div class="col-12">
-                <label for="description">Descripción</label>
-                <input type="text" class="form-control" id="description" formControlName="description">
+                <label for="Description">Descripción</label>
+                <input type="text" class="form-control" id="Description" formControlName="Description">
             </div>
             <div class="col-4">
-                <label for="status">Estado</label>
-                <select class="form-select" id="status" formControlName="status">
+                <label for="Status">Estado</label>
+                <select class="form-select" id="Status" formControlName="Status">
                     <option value="A" selected>Activo</option>
                     <option value="I">Inactivo</option>
                 </select>

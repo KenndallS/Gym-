@@ -2,7 +2,7 @@ const connection = require('../common/mysql');
 
 class UserController {
     getAll(res){
-        const query = `SELECT id, username, '' as passwordHash, description, status FROM users`;
+        const query = `SELECT Id, UserName, '' as PasswordHash, Description, Status FROM Users`;
         connection.query(query, (error, result) => {
             if(error){
                 res.json({
@@ -19,7 +19,7 @@ class UserController {
     }
 
     getFilter(res, filter){
-        const query = `SELECT id, username, '' as passwordHash, description, status FROM users WHERE username LIKE '%${filter}%' OR description LIKE '%${filter}%'`;
+        const query = `SELECT Id, UserName, '' as PasswordHash, Description, Status FROM Users WHERE UserName LIKE '%${filter}%' OR Description LIKE '%${filter}%'`;
         connection.query(query, (error, result) => {
             if(error){
                 res.json({
@@ -36,7 +36,7 @@ class UserController {
     }
 
     getById(res, id){
-        const query = `SELECT id, username, '' as passwordHash, description, status FROM users WHERE id = ${id}`;
+        const query = `SELECT Id, UserName, '' as PasswordHash, Description, Status FROM Users WHERE Id = ${id}`;
         connection.query(query, (error, result) => {
             if(error){
                 res.json({
@@ -53,7 +53,7 @@ class UserController {
     }
 
     create(res, user){
-        const query = `INSERT INTO users SET ?`;
+        const query = `INSERT INTO Users SET ?`;
         connection.query(query, user, (error, result) => {
             if(error){
                 res.json({
@@ -70,7 +70,7 @@ class UserController {
     }
 
     update(res, user){
-        const query = `UPDATE users SET username = '${user.username}', ${(user.passwordHash)?'passwordHash = \''+user.passwordHash+'\',':''} description = '${user.description}', status = '${user.status}' WHERE id = ${user.id}`;
+        const query = `UPDATE Users SET UserName = '${user.username}', ${(user.PasswordHash)?'PasswordHash = \''+user.PasswordHash+'\',':''} Description = '${user.Description}', Status = '${user.Status}' WHERE Id = ${user.Id}`;
         connection.query(query, (error, result) => {
             if(error){
                 res.json({
@@ -87,7 +87,7 @@ class UserController {
     }
 
     delete(res, id, status){
-        const query = `UPDATE users SET status = '${status}' WHERE id = ${id}`;
+        const query = `UPDATE Users SET Status = '${status}' WHERE Id = ${id}`;
         connection.query(query, (error, result) => {
             if(error){
                 res.json({

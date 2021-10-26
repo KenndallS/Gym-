@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginFormComponent } from './components/login-form/login-form.component';
-import { RecoverFormComponent } from './components/recover-form/recover-form.component';
+import { AuthenticationGuard } from './guards/authentication.guard';
 import { ContainerComponent } from './pages/container/container.component';
 import { CustomerComponent } from './pages/customer/customer.component';
 import { HealthConditionComponent } from './pages/health-condition/health-condition.component';
@@ -14,7 +14,6 @@ import { UserComponent } from './pages/user/user.component';
 const routes: Routes = [
   {path: 'login', component: LoginComponent, children: [
     {path: '', component: LoginFormComponent},
-    {path: 'recover', component: RecoverFormComponent}
   ]},
   {path: '', component: ContainerComponent, children: [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -25,7 +24,7 @@ const routes: Routes = [
     {path: 'payments', component: PaymentComponent},
     {path: 'taining-plans', component: TrainingPlanComponent},
     {path: 'logout', redirectTo: '/login', pathMatch: 'full'}
-  ]},
+  ], canActivate: [AuthenticationGuard]},
   {path: '**', redirectTo: '/login', pathMatch: 'full'}
 ];
 
