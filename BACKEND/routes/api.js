@@ -57,6 +57,9 @@ router.get('/customer/filter/:filter', (req, res) => {
 router.get('/customer/id/:id', (req, res) => {
   customerController.getById(res, req.params.id);
 });
+router.get('/customer/card/:card', (req, res) => {
+  customerController.getByCard(res, req.params.card);
+});
 router.post('/customer/save', (req, res) => {
   if(req.body.Id > 0){
     customerController.update(res, req.body);

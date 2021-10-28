@@ -52,6 +52,23 @@ class CustomerController {
         });
     }
 
+    getByCard(res, card){
+        const query = `SELECT * FROM customers WHERE Card = ${card}`;
+        connection.query(query, (error, result) => {
+            if(error){
+                res.json({
+                    status:'ERROR',
+                    error: error
+                });
+            } else {
+                res.json({
+                    status:'OK',
+                    data: result[0]
+                });
+            }
+        });
+    }
+
     create(res, customer){
         const query = `INSERT INTO customers SET ?`;
         connection.query(query, customer, (error, result) => {
