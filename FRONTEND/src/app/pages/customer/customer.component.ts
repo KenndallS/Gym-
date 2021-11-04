@@ -62,6 +62,21 @@ export class CustomerComponent implements OnInit {
     this.loadTrainingPlans();
   }
 
+  resetForm(){
+    this.customerForm = this.formBuilder.group({
+      Id: [0],
+      Inscription: [null],
+      Card: ['', Validators.required],
+      FirstName: ['', Validators.required],
+      LastName: ['', Validators.required],
+      PhoneNumber: ['', Validators.required],
+      Gender: ['', Validators.required],
+      Birthday: [this.datePipe.transform(new Date(), 'yyyy-MM-dd')],
+      Status: ['A', Validators.required],
+      TrainingPlan: ['']
+    });
+  }
+
   loadCustomers(){
     this.customerService.all().subscribe(request => {
       if(request.status === 'OK'){
@@ -103,7 +118,7 @@ export class CustomerComponent implements OnInit {
   }
 
   newCustomer(content: any){
-    this.customerForm.reset();
+    this.resetForm();
     this.customerModalRef = this.modalService.open(content);
   }
 

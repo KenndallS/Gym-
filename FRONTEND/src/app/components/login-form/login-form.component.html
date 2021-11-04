@@ -2,11 +2,11 @@
     <form [formGroup]="loginForm">
        <div class="form-group mt-3">
           <label>Usuario o Correo Electrónico</label>
-          <input type="text" class="form-control" placeholder="usuario@ejemplo.com" formControlName="user">
+          <input type="text" class="form-control" placeholder="usuario@ejemplo.com" formControlName="user" (keyup.enter)="login()">
        </div>
        <div class="form-group mt-3">
           <label>Contraseña</label>
-          <input type="password" class="form-control" placeholder="Contraseña" formControlName="password">
+          <input type="password" class="form-control" placeholder="Contraseña" formControlName="password" (keyup.enter)="login()">
        </div>
          <button type="button" (click)="login()" class="btn btn-black mt-3 mr-3">Ingresar</button>
     </form>

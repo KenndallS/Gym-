@@ -47,7 +47,8 @@ export class HealthConditionComponent implements OnInit {
       MuscleAverage: [0],
       IMC: [0],
       MetabolicAge: [0],
-      Date: [datePipe.transform(new Date(), 'yyyy-MM-dd'), Validators.required],
+      Details: [''],
+      Date: [this.datePipe.transform(new Date(), 'yyyy-MM-dd'), Validators.required],
       Status: ['A', Validators.required]
     });
   }
@@ -55,7 +56,23 @@ export class HealthConditionComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  findHealthCondition(){
+  resetForm(){
+    this.healthConditionForm = this.formBuilder.group({
+      Id: [0],
+      Customer: [null],
+      Height: [0],
+      Weight: [0],
+      FatAverage: [0],
+      MuscleAverage: [0],
+      IMC: [0],
+      MetabolicAge: [0],
+      Details: [''],
+      Date: [this.datePipe.transform(new Date(), 'yyyy-MM-dd'), Validators.required],
+      Status: ['A', Validators.required]
+    });
+  }
+
+  findHealthConditions(){
     if(this.searchForm.value.search){
       this.customerService.getByCard(this.searchForm.value.search).subscribe(request => {
         if(request.status === 'OK'){
@@ -85,6 +102,52 @@ export class HealthConditionComponent implements OnInit {
       });
     } else {
       this.healthConditions = [];
+    }
+  }
+
+  newHealthCondition(content: any){
+    this.resetForm();
+    this.healthConditionModalRef = this.modalService.open(content);
+  }
+
+  editHealthCondition(content: any, healthCondition: HealthCondition){
+    if(healthCondition) this.healthConditionForm.patchValue({
+      ...healthCondition,
+      Date: this.datePipe.transform(healthCondition.Date, 'yyyy-MM-dd'), 
+    });
+    this.healthConditionModalRef = this.modalService.open(content);
+  }
+
+  saveHealthCondition(){
+    if(!this.healthConditionForm.valid) return; // ALERT
+
+    let healthCondition = this.healthConditionForm.value;
+    healthCondition.Customer = (this.customer)?this.customer?.Id:null;
+
+    this.healthConditionService.save(healthCondition).subscribe(request => {
+      if(request.status === 'OK'){
+        this.healthConditionModalRef.close();
+        this.findHealthConditions(); // ALERT
+      } else {
+        alert(request.error); // ALERT
+      }
+    }, error => {
+        console.log(error); // ALERT
+    });
+  }
+
+  deleteHealthCondition(healthCondition: HealthCondition){
+    if(healthCondition){
+      let newStatus = ((healthCondition.Status === 'A')?'I':'A');
+      this.healthConditionService.delete(healthCondition.Id, newStatus).subscribe(request => {
+        if(request.status === 'OK'){
+          this.findHealthConditions();// ALERT
+        } else {
+          alert(request.error); // ALERT
+        }
+      }, error => {
+        console.log(error); // ALERT
+      })
     }
   }
 

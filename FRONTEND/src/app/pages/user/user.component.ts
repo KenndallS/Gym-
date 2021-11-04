@@ -43,6 +43,16 @@ export class UserComponent implements OnInit {
     this.loadUsers();
   }
 
+  resetForm(){
+    this.userForm = this.formBuilder.group({
+      Id: [0],
+      UserName: ['', Validators.required],
+      PasswordHash: [''],
+      Description: [''],
+      Status: ['A', Validators.required]
+    });
+  }
+
   loadUsers(){
     this.userService.all().subscribe(request => {
       if(request.status === 'OK'){
@@ -72,7 +82,7 @@ export class UserComponent implements OnInit {
   }
 
   newUser(content: any){
-    this.userForm.reset();
+    this.resetForm();
     this.userModalRef = this.modalService.open(content);
   }
 

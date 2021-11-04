@@ -1,1 +1,80 @@
-<p>payment works!</p>
+<form class="d-grid gap-2 d-md-flex justify-content-md-end" [formGroup]="searchForm">
+    <div class="col">
+        <input class="form-control" type="text" id="search" placeholder="Número de identificación" formControlName="search" (keyup.enter)="findPayments()">
+    </div>
+    <button type="button" class="btn btn-primary" (click)="findPayments()">O Buscar</button>
+</form>
+<div *ngIf="customer">
+    <div class="card mt-3">
+        <div class="card-body row">
+            <div class="col">
+                <h5 class="card-title">{{ customer.FirstName }} {{ customer.LastName }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ customer.Card }}</h6>
+            </div>
+            <div class="col d-flex justify-content-end">
+                <button type="button" class="btn btn-success" (click)="newPayment(modal_payment)" >+ Agregar pago</button>
+            </div>
+        </div>
+    </div>
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Monto</th>
+                <th>Fecha de pago</th>
+                <th>Fecha de expiración</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let payment of payments; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>₡ {{ payment.Amount }}</td>
+                <td>{{ payment.PayDate | date: 'dd/MM/yyyy'}}</td>
+                <td>{{ payment.ExpirationDate | date: 'dd/MM/yyyy'}}</td>
+                <td>{{ payment.Status }}</td>
+                <td>
+                    <button class="btn btn-outline-secondary" (click)="editPayment(modal_payment, payment)">Editar</button>
+                    <button class="btn btn-outline-danger" (click)="deletePayment(payment)">{{ ((payment.Status === 'A')?'Deshabilitar':'Habilitar')}}</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<ng-template #modal_payment let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Pago</h4>
+        <button type="button" class="btn-close" (click)="d('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form class="row" [formGroup]="paymentForm">
+            <input type="number" formControlName="Id" hidden>
+            <input type="number" formControlName="Inscription" hidden>
+            <div class="col-6">
+                <label for="Amount">Monto</label>
+                <input type="number" class="form-control" id="Amount" formControlName="Amount">
+            </div>
+            <div class="col-6">
+                <label for="PayDate">Fecha de pago</label>
+                <input type="date" class="form-control" id="PayDate" formControlName="PayDate">
+            </div>
+            <div class="col-6">
+                <label for="ExpirationDate">Fecha de expiración</label>
+                <input type="date" class="form-control" id="ExpirationDate" formControlName="ExpirationDate">
+            </div>
+            <div class="col-4">
+                <label for="Status">Estado</label>
+                <select class="form-select" id="Status" formControlName="Status">
+                    <option value="A" selected>Activo</option>
+                    <option value="I">Inactivo</option>
+                </select>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" (click)="savePayment()">Guardar</button>
+        <button type="button" class="btn btn-outline-danger" (click)="d('Cancel click')">Cancelar</button>
+    </div>
+</ng-template>

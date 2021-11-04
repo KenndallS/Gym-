@@ -1,6 +1,6 @@
 ﻿/*
-Created: 18/9/2021
-Modified: 28/9/2021
+Created: 18/09/2021
+Modified: 04/11/2021
 Model: GymDBModel
 Database: MySQL 8.0
 */
@@ -54,6 +54,7 @@ CREATE TABLE HealthConditions
   MuscleAverage Float,
   IMC Float,
   MetabolicAge Int,
+  Details Varchar(500),
   Date Date NOT NULL,
   Status Varchar(1) NOT NULL,
   PRIMARY KEY (Id),

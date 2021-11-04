@@ -52,8 +52,8 @@ class PaymentController {
         });
     }
 
-    getByCustomerId(res, id){
-        const query = `SELECT p.* FROM Payments p INNER JOIN Inscriptions i ON p.Inscription = i.Id INNER JOIN Customers c ON c.Inscription = i.Id WHERE c.Id = ${id}`;
+    getByInscriptionId(res, id){
+        const query = `SELECT p.* FROM Payments p INNER JOIN Inscriptions i ON p.Inscription = i.Id INNER JOIN Customers c ON c.Inscription = i.Id WHERE c.Inscription = ${id} ORDER BY p.PayDate DESC`;
         connection.query(query, (error, result) => {
             if(error){
                 res.json({
@@ -63,7 +63,7 @@ class PaymentController {
             } else {
                 res.json({
                     status:'OK',
-                    data: result[0]
+                    data: result
                 });
             }
         });

@@ -1,17 +1,105 @@
 <form class="d-grid gap-2 d-md-flex justify-content-md-end" [formGroup]="searchForm">
     <div class="col">
-        <input class="form-control" type="text" id="search" placeholder="Número de identificación" formControlName="search" (keyup.enter)="findHealthCondition()">
+        <input class="form-control" type="text" id="search" placeholder="Número de identificación" formControlName="search" (keyup.enter)="findHealthConditions()">
     </div>
-    <button type="button" class="btn btn-primary" (click)="findHealthCondition()">O Buscar</button>
+    <button type="button" class="btn btn-primary" (click)="findHealthConditions()">O Buscar</button>
 </form>
-<div>
-    <div class="card mt-3" *ngIf="customer">
-        <div class="card-body col-12">
-            <h5 class="card-title">{{ customer.FirstName }} {{ customer.LastName }}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">{{ customer.Card }}</h6>
-            <button type="button" class="btn btn-success" >+ Agregar registro</button>
-            <!-- (click)="newHealthCondition(modal_health_condition)" -->
+<div *ngIf="customer">
+    <div class="card mt-3">
+        <div class="card-body row">
+            <div class="col">
+                <h5 class="card-title">{{ customer.FirstName }} {{ customer.LastName }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ customer.Card }}</h6>
+            </div>
+            <div class="col d-flex justify-content-end">
+                <button type="button" class="btn btn-success" (click)="newHealthCondition(modal_health_condition)" >+ Agregar registro</button>
+            </div>
         </div>
     </div>
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Altura</th>
+                <th>Peso</th>
+                <!-- <th>% Grasa</th>
+                <th>% Músculo</th>
+                <th>IMC</th>
+                <th>Edad metabólica</th> -->
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let healthCondition of healthConditions; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ healthCondition.Height }} m</td>
+                <td>{{ healthCondition.Weight }} Kg</td>
+                <td>{{ healthCondition.Date | date: 'dd/MM/yyyy'}}</td>
+                <td>{{ healthCondition.Status }}</td>
+                <td>
+                    <button class="btn btn-outline-secondary" (click)="editHealthCondition(modal_health_condition, healthCondition)">Editar</button>
+                    <button class="btn btn-outline-danger" (click)="deleteHealthCondition(healthCondition)">{{ ((healthCondition.Status === 'A')?'Deshabilitar':'Habilitar')}}</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
+
+<ng-template #modal_health_condition let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Condición de salud</h4>
+        <button type="button" class="btn-close" (click)="d('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form class="row" [formGroup]="healthConditionForm">
+            <input type="number" formControlName="Id" hidden>
+            <input type="number" formControlName="Customer" hidden>
+            <div class="col-6">
+                <label for="Height">Altura</label>
+                <input type="number" class="form-control" id="Height" formControlName="Height">
+            </div>
+            <div class="col-6">
+                <label for="Weight">Peso</label>
+                <input type="number" class="form-control" id="Weight" formControlName="Weight">
+            </div>
+            <div class="col-6">
+                <label for="FatAverage">Porcentaje de grasa</label>
+                <input type="number" class="form-control" id="FatAverage" formControlName="FatAverage">
+            </div>
+            <div class="col-6">
+                <label for="MuscleAverage">Porcentaje de músculo</label>
+                <input type="number" class="form-control" id="MuscleAverage" formControlName="MuscleAverage">
+            </div>
+            <div class="col-6">
+                <label for="IMC">Índice de masa corporal</label>
+                <input type="number" class="form-control" id="IMC" formControlName="IMC">
+            </div>
+            <div class="col-6">
+                <label for="MetabolicAge">Edad metabólica</label>
+                <input type="number" class="form-control" id="MetabolicAge" formControlName="MetabolicAge">
+            </div>
+            <div class="col-6">
+                <label for="Date">Fecha</label>
+                <input type="date" class="form-control" id="Date" formControlName="Date">
+            </div>
+            <div class="col-4">
+                <label for="Status">Estado</label>
+                <select class="form-select" id="Status" formControlName="Status">
+                    <option value="A" selected>Activo</option>
+                    <option value="I">Inactivo</option>
+                </select>
+            </div>
+            <div class="col-12">
+                <label for="Details">Observaciones</label>
+                <textarea class="form-control" id="Details" formControlName="Details" rows="8"></textarea>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" (click)="saveHealthCondition()">Guardar</button>
+        <button type="button" class="btn btn-outline-danger" (click)="d('Cancel click')">Cancelar</button>
+    </div>
+</ng-template>
 

@@ -113,7 +113,7 @@ router.post('/health-condition/save', (req, res) => {
   }
 });
 router.delete('/health-condition/delete/:id/:status', (req, res) => {
-  customerController.delete(res, req.params.id, req.params.status);
+  healthConditionController.delete(res, req.params.id, req.params.status);
 });
 
 /* Inscriptions routes */
@@ -150,8 +150,8 @@ router.get('/payment/filter/:filter', (req, res) => {
 router.get('/payment/id/:id', (req, res) => {
   paymentController.getById(res, req.params.id);
 });
-router.get('/payment/customer/:id', (req, res) => {
-  paymentController.getByCustomerId(res, req.params.id);
+router.get('/payment/inscription/:id', (req, res) => {
+  paymentController.getByInscriptionId(res, req.params.id);
 });
 router.post('/payment/save', (req, res) => {
   if(req.body.Id > 0){

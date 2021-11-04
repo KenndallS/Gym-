@@ -44,6 +44,16 @@ export class TrainingPlanComponent implements OnInit {
     this.loadTrainingPlans();
   }
 
+  resetForm(){
+    this.trainingPlanForm = this.formBuilder.group({
+      Id: [0],
+      Cost: [0, Validators.required],
+      Name: ['', Validators.required],
+      Details: [''],
+      Status: ['A', Validators.required]
+    });
+  }
+
   loadTrainingPlans(){
     this.trainingPlanService.all().subscribe(request => {
       if(request.status === 'OK'){
@@ -73,7 +83,7 @@ export class TrainingPlanComponent implements OnInit {
   }
 
   newTrainingPlan(content: any){
-    this.trainingPlanForm.reset();
+    this.resetForm();
     this.trainingPlanModalRef = this.modalService.open(content);
   }
 
