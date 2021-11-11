@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { faCheck, faEdit, faPlus, faSave, faSearch, faTimes, faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal, NgbModalConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
@@ -10,6 +11,16 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
+  // Icons
+  faPlus = faPlus;
+  faSearch = faSearch;
+  faEdit = faEdit;
+  faTimes = faTimes;
+  faCheck = faCheck;
+  faToggleOn = faToggleOn;
+  faToggleOff = faToggleOff;
+  faSave = faSave;
+
   searchForm: FormGroup;
   users: User[];
   userForm: FormGroup;
@@ -33,11 +44,12 @@ export class UserComponent implements OnInit {
     this.userForm = this.formBuilder.group({
       Id: [0],
       UserName: ['', Validators.required],
-      PasswordHash: [''],
+      PasswordHash: ['', Validators.required],
       Description: [''],
       Status: ['A', Validators.required]
     });
   }
+  // Validators.pattern(/^[a-zA-Z]+$/)
 
   ngOnInit(): void {
     this.loadUsers();
@@ -47,7 +59,7 @@ export class UserComponent implements OnInit {
     this.userForm = this.formBuilder.group({
       Id: [0],
       UserName: ['', Validators.required],
-      PasswordHash: [''],
+      PasswordHash: ['', Validators.required],
       Description: [''],
       Status: ['A', Validators.required]
     });

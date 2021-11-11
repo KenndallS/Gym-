@@ -2,8 +2,8 @@
     <div class="col">
         <input class="form-control" type="text" id="search" placeholder="Usuario o descripción..." formControlName="search" (keyup)="filterUsers()">
     </div>
-    <button type="button" class="btn btn-primary" (click)="filterUsers()">O Buscar</button>
-    <button type="button" class="btn btn-success" (click)="newUser(modal_user)">+ Nuevo</button>
+    <button type="button" class="btn btn-primary" (click)="filterUsers()"><fa-icon [icon]="faSearch"></fa-icon> Buscar</button>
+    <button type="button" class="btn btn-success" (click)="newUser(modal_user)"><fa-icon [icon]="faPlus"></fa-icon> Nuevo</button>
 </form>
 <table class="table table-bordered mt-3">
     <thead>
@@ -20,10 +20,24 @@
             <td>{{ i + 1 }}</td>
             <td>{{ user.UserName }}</td>
             <td>{{ user.Description }}</td>
-            <td>{{ user.Status }}</td>
             <td>
-                <button class="btn btn-outline-secondary" (click)="editUser(modal_user, user)">Editar</button>
-                <button class="btn btn-outline-danger" (click)="deleteUser(user)">{{ ((user.Status === 'A')?'Deshabilitar':'Habilitar')}}</button>
+                <div *ngIf="user.Status === 'A'" class="text-success">
+                    Activo <fa-icon [icon]="faCheck"></fa-icon>
+                </div>
+                <div *ngIf="user.Status === 'I'" class="text-danger">
+                    Inactivo <fa-icon [icon]="faTimes"></fa-icon>
+                </div>
+            </td>
+            <td>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                    <button class="btn btn-outline-secondary" (click)="editUser(modal_user, user)"><fa-icon [icon]="faEdit"></fa-icon></button>
+                    <button *ngIf="user.Status === 'I'" class="btn btn-outline-danger" (click)="deleteUser(user)">
+                        <fa-icon [icon]="faToggleOff"></fa-icon>
+                    </button>
+                    <button *ngIf="user.Status === 'A'" class="btn btn-outline-success" (click)="deleteUser(user)">
+                        <fa-icon [icon]="faToggleOn"></fa-icon>
+                    </button>
+                </div>
             </td>
         </tr>
     </tbody>
@@ -39,15 +53,18 @@
             <input type="number" formControlName="Id" hidden>
             <div class="col-6">
                 <label for="UserName">Nombre usuario</label>
-                <input type="text" class="form-control" id="UserName" formControlName="UserName">
+                <input type="text" class="form-control" id="UserName" formControlName="UserName" 
+                [ngClass]="{'no-valid': userForm.controls.UserName.invalid && (userForm.controls.UserName.dirty || userForm.controls.UserName.touched)}">
             </div>
             <div class="col-6">
                 <label for="PasswordHash">Contraseña</label>
-                <input type="text" class="form-control" id="PasswordHash" formControlName="PasswordHash">
+                <input type="password" class="form-control" id="PasswordHash" formControlName="PasswordHash"
+                [ngClass]="{'no-valid': userForm.controls.PasswordHash.invalid && (userForm.controls.PasswordHash.dirty || userForm.controls.PasswordHash.touched)}">
             </div>
             <div class="col-12">
                 <label for="Description">Descripción</label>
-                <input type="text" class="form-control" id="Description" formControlName="Description">
+                <input type="text" class="form-control" id="Description" formControlName="Description"
+                [ngClass]="{'no-valid': userForm.controls.Description.invalid && (userForm.controls.Description.dirty || userForm.controls.Description.touched)}">
             </div>
             <div class="col-4">
                 <label for="Status">Estado</label>
@@ -59,8 +76,8 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-primary" (click)="saveUser()">Guardar</button>
-        <button type="button" class="btn btn-outline-danger" (click)="d('Cancel click')">Cancelar</button>
+        <button type="button" class="btn btn-outline-primary" (click)="saveUser()"><fa-icon [icon]="faSave"></fa-icon> Guardar</button>
+        <button type="button" class="btn btn-outline-danger" (click)="d('Cancel click')"><fa-icon [icon]="faTimes"></fa-icon> Cancelar</button>
     </div>
 </ng-template>
   
