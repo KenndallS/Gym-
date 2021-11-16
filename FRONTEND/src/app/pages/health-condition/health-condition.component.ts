@@ -1,9 +1,11 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { faCheck, faEdit, faPlus, faSave, faSearch, faTimes, faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal, NgbModalConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Customer } from 'src/app/models/customer';
 import { HealthCondition } from 'src/app/models/health-condition';
+import { AlertService } from 'src/app/services/alert.service';
 import { CustomerService } from 'src/app/services/customer.service';
 import { HealthConditionService } from 'src/app/services/health-condition.service';
 
@@ -13,6 +15,15 @@ import { HealthConditionService } from 'src/app/services/health-condition.servic
   styleUrls: ['./health-condition.component.scss']
 })
 export class HealthConditionComponent implements OnInit {
+  // Icons
+  faPlus = faPlus;
+  faSearch = faSearch;
+  faEdit = faEdit;
+  faTimes = faTimes;
+  faCheck = faCheck;
+  faToggleOn = faToggleOn;
+  faToggleOff = faToggleOff;
+  faSave = faSave;
 
   searchForm: FormGroup;
   healthConditions: HealthCondition[];
@@ -29,7 +40,8 @@ export class HealthConditionComponent implements OnInit {
     private healthConditionService: HealthConditionService,
     private customerService: CustomerService,
     private config: NgbModalConfig, 
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private alertService: AlertService
   ) { 
     this.config.backdrop = 'static';
     this.config.keyboard = false;

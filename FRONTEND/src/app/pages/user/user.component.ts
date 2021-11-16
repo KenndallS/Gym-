@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { faCheck, faEdit, faPlus, faSave, faSearch, faTimes, faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal, NgbModalConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { User } from 'src/app/models/user';
+import { AlertIcon, AlertService } from 'src/app/services/alert.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -33,7 +34,8 @@ export class UserComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private config: NgbModalConfig, 
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private alertService: AlertService
   ) { 
     this.config.backdrop = 'static';
     this.config.keyboard = false;
@@ -70,11 +72,11 @@ export class UserComponent implements OnInit {
       if(request.status === 'OK'){
         this.users = request.data;
       } else {
-        alert(request.error); // ALERT
+        this.alertService.showNotification(AlertIcon.ERROR, request.error);
       }
     }, error => {
-      console.log(error); // ALERT
-    })
+      this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
+    });
   }
 
   filterUsers(){
@@ -83,10 +85,10 @@ export class UserComponent implements OnInit {
         if(request.status === 'OK'){
           this.users = request.data;
         } else {
-          alert(request.error); // ALERT
+          this.alertService.showNotification(AlertIcon.ERROR, request.error);
         }
       }, error => {
-        console.log(error); // ALERT
+        this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
       })
     } else {
       this.loadUsers();
@@ -104,19 +106,23 @@ export class UserComponent implements OnInit {
   }
 
   saveUser(){
-    if(!this.userForm.valid) return; // ALERT
+    if(!this.userForm.valid){
+      this.alertService.showNotification(AlertIcon.WARNING, 'Formulario no válido!');
+      return;
+    }
 
     let user = this.userForm.value;
 
     this.userService.save(user).subscribe(request => {
       if(request.status === 'OK'){
         this.userModalRef.close();
-        this.filterUsers(); // ALERT
+        this.filterUsers();
+        this.alertService.showNotification(AlertIcon.SUCCESS, 'Usuario guardado exitosamente!');
       } else {
-        alert(request.error); // ALERT
+        this.alertService.showNotification(AlertIcon.ERROR, request.error);
       }
     }, error => {
-        console.log(error); // ALERT
+      this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
     });
   }
 
@@ -125,12 +131,13 @@ export class UserComponent implements OnInit {
       let newStatus = ((user.Status === 'A')?'I':'A');
       this.userService.delete(user.Id, newStatus).subscribe(request => {
         if(request.status === 'OK'){
-          this.filterUsers();// ALERT
+          this.filterUsers();
+          this.alertService.showNotification(AlertIcon.SUCCESS, 'Usuario deshabilitado');
         } else {
-          alert(request.error); // ALERT
+          this.alertService.showNotification(AlertIcon.ERROR, request.error);
         }
       }, error => {
-        console.log(error); // ALERT
+        this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
       })
     }
   }

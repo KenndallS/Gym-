@@ -37,7 +37,7 @@ router.get('/user/id/:id', (req, res) => {
   userController.getById(res, req.params.id);
 });
 router.post('/user/save', (req, res) => {
-  if(req.body.id > 0){
+  if(req.body.Id > 0){
     userController.update(res, req.body);
   } else {
     userController.create(res, req.body);

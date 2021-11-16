@@ -1,10 +1,12 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { faCheck, faEdit, faPlus, faSave, faSearch, faTimes, faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal, NgbModalConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Customer } from 'src/app/models/customer';
 import { Inscription } from 'src/app/models/inscription';
 import { TrainingPlan } from 'src/app/models/training-plan';
+import { AlertIcon, AlertService } from 'src/app/services/alert.service';
 import { CustomerService } from 'src/app/services/customer.service';
 import { InscriptionService } from 'src/app/services/inscription.service';
 import { TrainingPlanService } from 'src/app/services/training-plan.service';
@@ -15,6 +17,15 @@ import { TrainingPlanService } from 'src/app/services/training-plan.service';
   styleUrls: ['./customer.component.scss']
 })
 export class CustomerComponent implements OnInit {
+  // Icons
+  faPlus = faPlus;
+  faSearch = faSearch;
+  faEdit = faEdit;
+  faTimes = faTimes;
+  faCheck = faCheck;
+  faToggleOn = faToggleOn;
+  faToggleOff = faToggleOff;
+  faSave = faSave;
 
   searchForm: FormGroup;
   customers: Customer[];
@@ -33,7 +44,8 @@ export class CustomerComponent implements OnInit {
     private trainingPlanService: TrainingPlanService,
     private inscriptionService: InscriptionService,
     private config: NgbModalConfig, 
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private alertService: AlertService
   ) { 
     this.config.backdrop = 'static';
     this.config.keyboard = false;
@@ -82,10 +94,10 @@ export class CustomerComponent implements OnInit {
       if(request.status === 'OK'){
         this.customers = request.data;
       } else {
-        alert(request.error); // ALERT
+        this.alertService.showNotification(AlertIcon.ERROR, request.error);
       }
     }, error => {
-      console.log(error); // ALERT
+      this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
     })
   }
 
@@ -94,10 +106,10 @@ export class CustomerComponent implements OnInit {
       if(request.status === 'OK'){
         this.trainingPlans = request.data.filter(x => x.Status != 'I');
       } else {
-        alert(request.error); // ALERT
+        this.alertService.showNotification(AlertIcon.ERROR, request.error);
       }
     }, error => {
-      console.log(error); // ALERT
+      this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
     })
   }
 
@@ -107,10 +119,10 @@ export class CustomerComponent implements OnInit {
         if(request.status === 'OK'){
           this.customers = request.data;
         } else {
-          alert(request.error); // ALERT
+          this.alertService.showNotification(AlertIcon.ERROR, request.error);
         }
       }, error => {
-        console.log(error); // ALERT
+        this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
       })
     } else {
       this.loadCustomers();
@@ -129,7 +141,7 @@ export class CustomerComponent implements OnInit {
           this.inscription = request.data;
           console.log(this.inscription);
         } else {
-          alert(request.error); // ALERT
+          this.alertService.showNotification(AlertIcon.ERROR, request.error);
         }
         this.customerForm.patchValue({
           ...customer, 
@@ -137,14 +149,17 @@ export class CustomerComponent implements OnInit {
           TrainingPlan: this.inscription?.TrainingPlan
         });
       }, error => {
-        console.log(error); // ALERT
+        this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
       });
     }
     this.customerModalRef = this.modalService.open(content);
   }
 
   saveCustomer(){
-    if(!this.customerForm.valid) return; // ALERT
+    if(!this.customerForm.valid){
+      this.alertService.showNotification(AlertIcon.WARNING, 'Formulario no válido!');
+      return;
+    }
 
     if(this.customerForm.controls["TrainingPlan"].value && this.customerForm.controls["TrainingPlan"].value > 0){
       if(!this.inscription){
@@ -170,18 +185,19 @@ export class CustomerComponent implements OnInit {
             if(request.status === 'OK'){
               this.customerModalRef.close();
               this.inscription = undefined;
-              this.filterCustomers(); // ALERT
+              this.filterCustomers();
+              this.alertService.showNotification(AlertIcon.SUCCESS, 'Cliente guardado exitosamente!');
             } else {
-              alert(request.error); // ALERT
+              this.alertService.showNotification(AlertIcon.ERROR, request.error);
             }
           }, error => {
-              console.log(error); // ALERT
+            this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
           });
         } else {
-          alert(request.error); // ALERT
+          this.alertService.showNotification(AlertIcon.ERROR, request.error);
         }
       }, error => {
-          console.log(error); // ALERT
+        this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
       });
     } else {
       let user = this.customerForm.value;
@@ -193,12 +209,13 @@ export class CustomerComponent implements OnInit {
         if(request.status === 'OK'){
           this.customerModalRef.close();
           this.inscription = undefined;
-          this.filterCustomers(); // ALERT
+          this.filterCustomers();
+          this.alertService.showNotification(AlertIcon.SUCCESS, 'Cliente guardado exitosamente!');
         } else {
-          alert(request.error); // ALERT
+          this.alertService.showNotification(AlertIcon.ERROR, request.error);
         }
       }, error => {
-          console.log(error); // ALERT
+        this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
       });
     }
   }
@@ -208,12 +225,13 @@ export class CustomerComponent implements OnInit {
       let newStatus = ((customer.Status === 'A')?'I':'A');
       this.customerService.delete(customer.Id, newStatus).subscribe(request => {
         if(request.status === 'OK'){
-          this.filterCustomers();// ALERT
+          this.filterCustomers();
+          this.alertService.showNotification(AlertIcon.SUCCESS, 'Cliente deshabilitado');
         } else {
-          alert(request.error); // ALERT
+          this.alertService.showNotification(AlertIcon.ERROR, request.error);
         }
       }, error => {
-        console.log(error); // ALERT
+        this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
       })
     }
   }
