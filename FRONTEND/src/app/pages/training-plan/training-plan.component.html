@@ -2,8 +2,8 @@
     <div class="col">
         <input class="form-control" type="text" id="search" placeholder="Nombre del plan..." formControlName="search" (keyup)="filterTrainingPlans()">
     </div>
-    <button type="button" class="btn btn-primary" (click)="filterTrainingPlans()">O Buscar</button>
-    <button type="button" class="btn btn-success" (click)="newTrainingPlan(modal_training_plan)">+ Nuevo</button>
+    <button type="button" class="btn btn-primary" (click)="filterTrainingPlans()"><fa-icon [icon]="faSearch"></fa-icon> Buscar</button>
+    <button type="button" class="btn btn-success" (click)="newTrainingPlan(modal_training_plan)"><fa-icon [icon]="faPlus"></fa-icon> Nuevo</button>
 </form>
 <table class="table table-bordered mt-3">
     <thead>
@@ -22,10 +22,24 @@
             <td>{{ trainingPlan.Name }}</td>
             <td>{{ trainingPlan.Cost }}</td>
             <td>{{ trainingPlan.Details }}</td>
-            <td>{{ trainingPlan.Status }}</td>
             <td>
-                <button class="btn btn-outline-secondary" (click)="editTrainingPlan(modal_training_plan, trainingPlan)">Editar</button>
-                <button class="btn btn-outline-danger" (click)="deleteTrainingPlan(trainingPlan)">{{ ((trainingPlan.Status === 'A')?'Deshabilitar':'Habilitar')}}</button>
+                <div *ngIf="trainingPlan.Status === 'A'" class="text-success">
+                    Activo <fa-icon [icon]="faCheck"></fa-icon>
+                </div>
+                <div *ngIf="trainingPlan.Status === 'I'" class="text-danger">
+                    Inactivo <fa-icon [icon]="faTimes"></fa-icon>
+                </div>
+            </td>
+            <td>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                    <button class="btn btn-outline-secondary" (click)="editTrainingPlan(modal_training_plan, trainingPlan)"><fa-icon [icon]="faEdit"></fa-icon></button>
+                    <button *ngIf="trainingPlan.Status === 'I'" class="btn btn-outline-danger" (click)="deleteTrainingPlan(trainingPlan)">
+                        <fa-icon [icon]="faToggleOff"></fa-icon>
+                    </button>
+                    <button *ngIf="trainingPlan.Status === 'A'" class="btn btn-outline-success" (click)="deleteTrainingPlan(trainingPlan)">
+                        <fa-icon [icon]="faToggleOn"></fa-icon>
+                    </button>
+                </div>
             </td>
         </tr>
     </tbody>

@@ -1,7 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { faCheck, faEdit, faPlus, faSave, faSearch, faTimes, faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal, NgbModalConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TrainingPlan } from 'src/app/models/training-plan';
+import { AlertIcon, AlertService } from 'src/app/services/alert.service';
 import { TrainingPlanService } from 'src/app/services/training-plan.service';
 
 @Component({
@@ -10,6 +12,15 @@ import { TrainingPlanService } from 'src/app/services/training-plan.service';
   styleUrls: ['./training-plan.component.scss']
 })
 export class TrainingPlanComponent implements OnInit {
+  // Icons
+  faPlus = faPlus;
+  faSearch = faSearch ;
+  faEdit = faEdit;
+  faTimes = faTimes;
+  faCheck = faCheck;
+  faToggleOn = faToggleOn;
+  faToggleOff = faToggleOff;
+  faSave = faSave;
 
   searchForm: FormGroup;
   trainingPlans: TrainingPlan[];
@@ -23,7 +34,8 @@ export class TrainingPlanComponent implements OnInit {
     private formBuilder: FormBuilder,
     private trainingPlanService: TrainingPlanService,
     private config: NgbModalConfig, 
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private alertService: AlertService
   ) { 
     this.config.backdrop = 'static';
     this.config.keyboard = false;
@@ -59,10 +71,10 @@ export class TrainingPlanComponent implements OnInit {
       if(request.status === 'OK'){
         this.trainingPlans = request.data;
       } else {
-        alert(request.error); // ALERT
+        this.alertService.showNotification(AlertIcon.ERROR, request.error);
       }
     }, error => {
-      console.log(error); // ALERT
+      this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
     })
   }
 
@@ -72,10 +84,10 @@ export class TrainingPlanComponent implements OnInit {
         if(request.status === 'OK'){
           this.trainingPlans = request.data;
         } else {
-          alert(request.error); // ALERT
+          this.alertService.showNotification(AlertIcon.ERROR, request.error);
         }
       }, error => {
-        console.log(error); // ALERT
+        this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
       })
     } else {
       this.loadTrainingPlans();
@@ -93,19 +105,23 @@ export class TrainingPlanComponent implements OnInit {
   }
 
   saveTrainingPlan(){
-    if(!this.trainingPlanForm.valid) return; // ALERT
+    if(!this.trainingPlanForm.valid){
+      this.alertService.showNotification(AlertIcon.WARNING, 'Formulario no válido!');
+      return;
+    }
 
-    let user = this.trainingPlanForm.value;
+    let trainingPlan = this.trainingPlanForm.value;
 
-    this.trainingPlanService.save(user).subscribe(request => {
+    this.trainingPlanService.save(trainingPlan).subscribe(request => {
       if(request.status === 'OK'){
         this.trainingPlanModalRef.close();
-        this.filterTrainingPlans(); // ALERT
+        this.filterTrainingPlans();
+        this.alertService.showNotification(AlertIcon.SUCCESS, 'Plan de entrenamiento guardado exitosamente!');
       } else {
-        alert(request.error); // ALERT
+        this.alertService.showNotification(AlertIcon.ERROR, request.error);
       }
     }, error => {
-        console.log(error); // ALERT
+      this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
     });
   }
 
@@ -114,12 +130,13 @@ export class TrainingPlanComponent implements OnInit {
       let newStatus = ((trainingPlan.Status === 'A')?'I':'A');
       this.trainingPlanService.delete(trainingPlan.Id, newStatus).subscribe(request => {
         if(request.status === 'OK'){
-          this.filterTrainingPlans();// ALERT
+          this.filterTrainingPlans();
+          this.alertService.showNotification(AlertIcon.SUCCESS, 'Plan de entrenamiento deshabilitado');
         } else {
-          alert(request.error); // ALERT
+          this.alertService.showNotification(AlertIcon.ERROR, request.error);
         }
       }, error => {
-        console.log(error); // ALERT
+        this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
       })
     }
   }

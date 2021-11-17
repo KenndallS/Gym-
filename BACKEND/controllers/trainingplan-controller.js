@@ -71,7 +71,7 @@ class TrainingPlanController {
 
     update(res, trainingPlan){
         const query = `UPDATE TrainingPlans SET ? WHERE Id = ${trainingPlan.Id}`;
-        connection.query(query, customer, (error, result) => {
+        connection.query(query, trainingPlan, (error, result) => {
             if(error){
                 res.json({
                     status:'ERROR',

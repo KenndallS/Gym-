@@ -139,7 +139,6 @@ export class CustomerComponent implements OnInit {
       this.inscriptionService.getByCustomerId(customer.Id).subscribe(request => {
         if(request.status === 'OK'){
           this.inscription = request.data;
-          console.log(this.inscription);
         } else {
           this.alertService.showNotification(AlertIcon.ERROR, request.error);
         }

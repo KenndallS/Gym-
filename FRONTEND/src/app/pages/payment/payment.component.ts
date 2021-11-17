@@ -1,10 +1,12 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { faCalendarAlt, faCheck, faCoins, faEdit, faEye, faIdCard, faPlus, faSave, faSearch, faTimes, faToggleOff, faToggleOn, faUser } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal, NgbModalConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Customer } from 'src/app/models/customer';
 import { Inscription } from 'src/app/models/inscription';
 import { Payment } from 'src/app/models/payment';
+import { AlertService } from 'src/app/services/alert.service';
 import { CustomerService } from 'src/app/services/customer.service';
 import { InscriptionService } from 'src/app/services/inscription.service';
 import { PaymentService } from 'src/app/services/payment.service';
@@ -15,13 +17,34 @@ import { PaymentService } from 'src/app/services/payment.service';
   styleUrls: ['./payment.component.scss']
 })
 export class PaymentComponent implements OnInit {
+  // Icons
+  faPlus = faPlus;
+  faSearch = faSearch;
+  faEdit = faEdit;
+  faTimes = faTimes;
+  faCheck = faCheck;
+  faToggleOn = faToggleOn;
+  faToggleOff = faToggleOff;
+  faSave = faSave;
+  faUser = faUser;
+  faIdCard = faIdCard;
+  faEye = faEye;
+  faCalendarAlt = faCalendarAlt;
+  faCoins = faCoins;
+  // faWeight = faWeight;
+  // faBacon = faBacon;
+  // faWeightHanging = faWeightHanging;
+  // faHeartbeat = faHeartbeat;
+  // faThList = faThList;
+  // faBook = faBook;
 
   searchForm: FormGroup;
   payments: Payment[];
   customer?: Customer;
-  // inscription?: Inscription;
   paymentForm: FormGroup;
   paymentModalRef!: NgbModalRef;
+  activePayment?: Payment;
+  viewPaymentModalRef!: NgbModalRef;
 
   @ViewChild("modal_payment")
   paymentModal!: ElementRef;
@@ -31,9 +54,9 @@ export class PaymentComponent implements OnInit {
     private formBuilder: FormBuilder,
     private paymentService: PaymentService,
     private customerService: CustomerService,
-    // private inscriptionService: InscriptionService,
     private config: NgbModalConfig, 
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private alertService: AlertService
   ) { 
     this.config.backdrop = 'static';
     this.config.keyboard = false;
@@ -103,6 +126,11 @@ export class PaymentComponent implements OnInit {
   newPayment(content: any){
     this.resetForm();
     this.paymentModalRef = this.modalService.open(content);
+  }
+
+  viewHealthCondition(content: any, payment: Payment){
+    if(payment) this.activePayment = payment;
+    this.viewPaymentModalRef = this.modalService.open(content);
   }
 
   editPayment(content: any, payment: Payment){
