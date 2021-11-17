@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { faCheck, faEdit, faPlus, faSave, faSearch, faTimes, faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
+import { faBacon, faBook, faCalendarAlt, faCheck, faEdit, faEye, faHeartbeat, faIdCard, faPlus, faRuler, faSave, faSearch, faThList, faTimes, faToggleOff, faToggleOn, faUser, faWeight, faWeightHanging } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal, NgbModalConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Customer } from 'src/app/models/customer';
 import { HealthCondition } from 'src/app/models/health-condition';
@@ -24,12 +24,25 @@ export class HealthConditionComponent implements OnInit {
   faToggleOn = faToggleOn;
   faToggleOff = faToggleOff;
   faSave = faSave;
+  faUser = faUser;
+  faIdCard = faIdCard;
+  faEye = faEye;
+  faCalendarAlt = faCalendarAlt;
+  faRuler = faRuler;
+  faWeight = faWeight;
+  faBacon = faBacon;
+  faWeightHanging = faWeightHanging;
+  faHeartbeat = faHeartbeat;
+  faThList = faThList;
+  faBook = faBook;
 
   searchForm: FormGroup;
   healthConditions: HealthCondition[];
   customer?: Customer;
   healthConditionForm: FormGroup;
   healthConditionModalRef!: NgbModalRef;
+  activeHealthCondition?: HealthCondition;
+  viewHealthConditionModalRef!: NgbModalRef;
 
   @ViewChild("modal_health_condition")
   healthConditionModal!: ElementRef;
@@ -85,6 +98,7 @@ export class HealthConditionComponent implements OnInit {
   }
 
   findHealthConditions(){
+    this.activeHealthCondition = undefined;
     if(this.searchForm.value.search){
       this.customerService.getByCard(this.searchForm.value.search).subscribe(request => {
         if(request.status === 'OK'){
@@ -120,6 +134,11 @@ export class HealthConditionComponent implements OnInit {
   newHealthCondition(content: any){
     this.resetForm();
     this.healthConditionModalRef = this.modalService.open(content);
+  }
+
+  viewHealthCondition(content: any, healthCondition: HealthCondition){
+    if(healthCondition) this.activeHealthCondition = healthCondition;
+    this.viewHealthConditionModalRef = this.modalService.open(content);
   }
 
   editHealthCondition(content: any, healthCondition: HealthCondition){
