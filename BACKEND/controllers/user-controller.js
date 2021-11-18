@@ -70,7 +70,7 @@ class UserController {
     }
 
     update(res, user){
-        const query = `UPDATE Users SET UserName = '${user.username}', ${(user.PasswordHash)?'PasswordHash = \''+user.PasswordHash+'\',':''} Description = '${user.Description}', Status = '${user.Status}' WHERE Id = ${user.Id}`;
+        const query = `UPDATE Users SET UserName = '${user.UserName}', ${(user.PasswordHash)?'PasswordHash = \''+user.PasswordHash+'\',':''} Description = '${user.Description}', Status = '${user.Status}' WHERE Id = ${user.Id}`;
         connection.query(query, (error, result) => {
             if(error){
                 res.json({

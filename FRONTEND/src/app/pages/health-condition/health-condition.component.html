@@ -2,17 +2,17 @@
     <div class="col">
         <input class="form-control" type="text" id="search" placeholder="Número de identificación" formControlName="search" (keyup.enter)="findHealthConditions()">
     </div>
-    <button type="button" class="btn btn-primary" (click)="findHealthConditions()">O Buscar</button>
+    <button type="button" class="btn btn-primary" (click)="findHealthConditions()"><fa-icon [icon]="faSearch"></fa-icon> Buscar</button>
 </form>
 <div *ngIf="customer">
     <div class="card mt-3">
         <div class="card-body row">
             <div class="col">
-                <h5 class="card-title">{{ customer.FirstName }} {{ customer.LastName }}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">{{ customer.Card }}</h6>
+                <h5 class="card-title"><fa-icon [icon]="faUser"></fa-icon> {{ customer.FirstName }} {{ customer.LastName }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted"><fa-icon [icon]="faIdCard"></fa-icon> {{ customer.Card }}</h6>
             </div>
             <div class="col d-flex justify-content-end">
-                <button type="button" class="btn btn-success" (click)="newHealthCondition(modal_health_condition)" >+ Agregar registro</button>
+                <button type="button" class="btn btn-success" (click)="newHealthCondition(modal_health_condition)" ><fa-icon [icon]="faPlus"></fa-icon> Agregar registro</button>
             </div>
         </div>
     </div>
@@ -22,10 +22,6 @@
                 <th>#</th>
                 <th>Altura</th>
                 <th>Peso</th>
-                <!-- <th>% Grasa</th>
-                <th>% Músculo</th>
-                <th>IMC</th>
-                <th>Edad metabólica</th> -->
                 <th>Fecha</th>
                 <th>Estado</th>
                 <th>Acciones</th>
@@ -37,15 +33,71 @@
                 <td>{{ healthCondition.Height }} m</td>
                 <td>{{ healthCondition.Weight }} Kg</td>
                 <td>{{ healthCondition.Date | date: 'dd/MM/yyyy'}}</td>
-                <td>{{ healthCondition.Status }}</td>
                 <td>
-                    <button class="btn btn-outline-secondary" (click)="editHealthCondition(modal_health_condition, healthCondition)">Editar</button>
-                    <button class="btn btn-outline-danger" (click)="deleteHealthCondition(healthCondition)">{{ ((healthCondition.Status === 'A')?'Deshabilitar':'Habilitar')}}</button>
+                    <div *ngIf="healthCondition.Status === 'A'" class="text-success">
+                        Activo <fa-icon [icon]="faCheck"></fa-icon>
+                    </div>
+                    <div *ngIf="healthCondition.Status === 'I'" class="text-danger">
+                        Inactivo <fa-icon [icon]="faTimes"></fa-icon>
+                    </div>
+                </td>
+                <td>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                        <button class="btn btn-outline-secondary" (click)="viewHealthCondition(modal_view_health_condition, healthCondition)"><fa-icon [icon]="faEye"></fa-icon></button>
+                        <button class="btn btn-outline-secondary" (click)="editHealthCondition(modal_health_condition, healthCondition)"><fa-icon [icon]="faEdit"></fa-icon></button>
+                        <button *ngIf="healthCondition.Status === 'I'" class="btn btn-outline-danger" (click)="deleteHealthCondition(healthCondition)">
+                            <fa-icon [icon]="faToggleOff"></fa-icon>
+                        </button>
+                        <button *ngIf="healthCondition.Status === 'A'" class="btn btn-outline-success" (click)="deleteHealthCondition(healthCondition)">
+                            <fa-icon [icon]="faToggleOn"></fa-icon>
+                        </button>
+                    </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
+
+<ng-template #modal_view_health_condition let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Condición de salud</h4>
+        <button type="button" class="btn-close" (click)="d('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <div class="card mt-3">
+            <div class="card-body row">
+                <div class="col">
+                    <h5 class="card-title"><fa-icon [icon]="faUser"></fa-icon> {{ customer?.FirstName }} {{ customer?.LastName }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted"><fa-icon [icon]="faIdCard"></fa-icon> {{ customer?.Card }}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="card-body row">
+                <h5 class="card-subtitle"><fa-icon [icon]="faCalendarAlt"></fa-icon> {{ activeHealthCondition?.Date | date: 'dd/MM/yyyy' }}</h5>
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="card-body row">
+                <h6 class="card-subtitle mb-2"><fa-icon [icon]="faRuler"></fa-icon> Altura: {{ activeHealthCondition?.Height }} m</h6>
+                <h6 class="card-subtitle mb-2"><fa-icon [icon]="faWeight"></fa-icon> Peso: {{ activeHealthCondition?.Weight }} Kg</h6>
+                <h6 class="card-subtitle mb-2"><fa-icon [icon]="faBacon"></fa-icon> Porcentaje de grasa: {{ activeHealthCondition?.FatAverage }} %</h6>
+                <h6 class="card-subtitle mb-2"><fa-icon [icon]="faWeightHanging"></fa-icon> Porcentaje de músculo: {{ activeHealthCondition?.MuscleAverage }} %</h6>
+                <h6 class="card-subtitle mb-2"><fa-icon [icon]="faHeartbeat"></fa-icon> Índice de masa corporal: {{ activeHealthCondition?.IMC }}</h6>
+                <h6 class="card-subtitle mb-2"><fa-icon [icon]="faThList"></fa-icon> Edad metabólica: {{ activeHealthCondition?.MetabolicAge }} años</h6>
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="card-body row">
+                <h6><fa-icon [icon]="faBook"></fa-icon> Observaciones</h6>
+                <p class="card-subtitle mb-2"> {{ activeHealthCondition?.Details }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" (click)="d('Cancel click')"><fa-icon [icon]="faTimes"></fa-icon> Cerrar</button>
+    </div>
+</ng-template>
 
 <ng-template #modal_health_condition let-c="close" let-d="dismiss">
     <div class="modal-header">
@@ -98,8 +150,9 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-primary" (click)="saveHealthCondition()">Guardar</button>
-        <button type="button" class="btn btn-outline-danger" (click)="d('Cancel click')">Cancelar</button>
+        <button type="button" class="btn btn-outline-primary" (click)="saveHealthCondition()"><fa-icon [icon]="faSave"></fa-icon> Guardar</button>
+        <button type="button" class="btn btn-outline-danger" (click)="d('Cancel click')"><fa-icon [icon]="faTimes"></fa-icon> Cancelar</button>
     </div>
 </ng-template>
+
 

@@ -1,9 +1,11 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { faBacon, faBook, faCalendarAlt, faCheck, faEdit, faEye, faHeartbeat, faIdCard, faPlus, faRuler, faSave, faSearch, faThList, faTimes, faToggleOff, faToggleOn, faUser, faWeight, faWeightHanging } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal, NgbModalConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Customer } from 'src/app/models/customer';
 import { HealthCondition } from 'src/app/models/health-condition';
+import { AlertService } from 'src/app/services/alert.service';
 import { CustomerService } from 'src/app/services/customer.service';
 import { HealthConditionService } from 'src/app/services/health-condition.service';
 
@@ -13,12 +15,34 @@ import { HealthConditionService } from 'src/app/services/health-condition.servic
   styleUrls: ['./health-condition.component.scss']
 })
 export class HealthConditionComponent implements OnInit {
+  // Icons
+  faPlus = faPlus;
+  faSearch = faSearch;
+  faEdit = faEdit;
+  faTimes = faTimes;
+  faCheck = faCheck;
+  faToggleOn = faToggleOn;
+  faToggleOff = faToggleOff;
+  faSave = faSave;
+  faUser = faUser;
+  faIdCard = faIdCard;
+  faEye = faEye;
+  faCalendarAlt = faCalendarAlt;
+  faRuler = faRuler;
+  faWeight = faWeight;
+  faBacon = faBacon;
+  faWeightHanging = faWeightHanging;
+  faHeartbeat = faHeartbeat;
+  faThList = faThList;
+  faBook = faBook;
 
   searchForm: FormGroup;
   healthConditions: HealthCondition[];
   customer?: Customer;
   healthConditionForm: FormGroup;
   healthConditionModalRef!: NgbModalRef;
+  activeHealthCondition?: HealthCondition;
+  viewHealthConditionModalRef!: NgbModalRef;
 
   @ViewChild("modal_health_condition")
   healthConditionModal!: ElementRef;
@@ -29,7 +53,8 @@ export class HealthConditionComponent implements OnInit {
     private healthConditionService: HealthConditionService,
     private customerService: CustomerService,
     private config: NgbModalConfig, 
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private alertService: AlertService
   ) { 
     this.config.backdrop = 'static';
     this.config.keyboard = false;
@@ -73,6 +98,7 @@ export class HealthConditionComponent implements OnInit {
   }
 
   findHealthConditions(){
+    this.activeHealthCondition = undefined;
     if(this.searchForm.value.search){
       this.customerService.getByCard(this.searchForm.value.search).subscribe(request => {
         if(request.status === 'OK'){
@@ -108,6 +134,11 @@ export class HealthConditionComponent implements OnInit {
   newHealthCondition(content: any){
     this.resetForm();
     this.healthConditionModalRef = this.modalService.open(content);
+  }
+
+  viewHealthCondition(content: any, healthCondition: HealthCondition){
+    if(healthCondition) this.activeHealthCondition = healthCondition;
+    this.viewHealthConditionModalRef = this.modalService.open(content);
   }
 
   editHealthCondition(content: any, healthCondition: HealthCondition){

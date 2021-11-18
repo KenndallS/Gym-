@@ -2,17 +2,17 @@
     <div class="col">
         <input class="form-control" type="text" id="search" placeholder="Número de identificación" formControlName="search" (keyup.enter)="findPayments()">
     </div>
-    <button type="button" class="btn btn-primary" (click)="findPayments()">O Buscar</button>
+    <button type="button" class="btn btn-primary" (click)="findPayments()"><fa-icon [icon]="faSearch"></fa-icon> Buscar</button>
 </form>
 <div *ngIf="customer">
     <div class="card mt-3">
         <div class="card-body row">
             <div class="col">
-                <h5 class="card-title">{{ customer.FirstName }} {{ customer.LastName }}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">{{ customer.Card }}</h6>
+                <h5 class="card-title"><fa-icon [icon]="faUser"></fa-icon> {{ customer.FirstName }} {{ customer.LastName }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted"><fa-icon [icon]="faIdCard"></fa-icon> {{ customer.Card }}</h6>
             </div>
             <div class="col d-flex justify-content-end">
-                <button type="button" class="btn btn-success" (click)="newPayment(modal_payment)" >+ Agregar pago</button>
+                <button type="button" class="btn btn-success" (click)="newPayment(modal_payment)" ><fa-icon [icon]="faPlus"></fa-icon> Agregar pago</button>
             </div>
         </div>
     </div>
@@ -33,15 +33,72 @@
                 <td>₡ {{ payment.Amount }}</td>
                 <td>{{ payment.PayDate | date: 'dd/MM/yyyy'}}</td>
                 <td>{{ payment.ExpirationDate | date: 'dd/MM/yyyy'}}</td>
-                <td>{{ payment.Status }}</td>
                 <td>
-                    <button class="btn btn-outline-secondary" (click)="editPayment(modal_payment, payment)">Editar</button>
-                    <button class="btn btn-outline-danger" (click)="deletePayment(payment)">{{ ((payment.Status === 'A')?'Deshabilitar':'Habilitar')}}</button>
+                    <div *ngIf="payment.Status === 'A'" class="text-success">
+                        Activo <fa-icon [icon]="faCheck"></fa-icon>
+                    </div>
+                    <div *ngIf="payment.Status === 'I'" class="text-danger">
+                        Inactivo <fa-icon [icon]="faTimes"></fa-icon>
+                    </div>
+                </td>
+                <td>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                        <button class="btn btn-outline-secondary" (click)="viewHealthCondition(modal_view_payment, payment)"><fa-icon [icon]="faEye"></fa-icon></button>
+                        <button class="btn btn-outline-secondary" (click)="editPayment(modal_payment, payment)"><fa-icon [icon]="faEdit"></fa-icon></button>
+                        <button *ngIf="payment.Status === 'I'" class="btn btn-outline-danger" (click)="deletePayment(payment)">
+                            <fa-icon [icon]="faToggleOff"></fa-icon>
+                        </button>
+                        <button *ngIf="payment.Status === 'A'" class="btn btn-outline-success" (click)="deletePayment(payment)">
+                            <fa-icon [icon]="faToggleOn"></fa-icon>
+                        </button>
+                    </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
+
+<ng-template #modal_view_payment let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Pago</h4>
+        <button type="button" class="btn-close" (click)="d('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <div class="card mt-3">
+            <div class="card-body row">
+                <div class="col">
+                    <h5 class="card-title"><fa-icon [icon]="faUser"></fa-icon> {{ customer?.FirstName }} {{ customer?.LastName }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted"><fa-icon [icon]="faIdCard"></fa-icon> {{ customer?.Card }}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="card-body row">
+                <h6 class="card-subtitle mb-2"><fa-icon [icon]="faCalendarAlt"></fa-icon> Día de pago: {{ activePayment?.PayDate | date: 'dd/MM/yyyy' }}</h6>
+                <h6 class="card-subtitle"><fa-icon [icon]="faCalendarAlt"></fa-icon> Fecha de expiración: {{ activePayment?.ExpirationDate | date: 'dd/MM/yyyy' }}</h6>
+            </div>
+        </div>
+        <!-- <div class="card mt-3">
+            <div class="card-body row">
+                <h6 class="card-subtitle mb-2"><fa-icon [icon]="faCoins"></fa-icon> Altura: {{ activePayment?.Amount }} m</h6>
+                <h6 class="card-subtitle mb-2"><fa-icon [icon]="faWeight"></fa-icon> Peso: {{ activeHealthCondition?.Weight }} Kg</h6>
+                <h6 class="card-subtitle mb-2"><fa-icon [icon]="faBacon"></fa-icon> Porcentaje de grasa: {{ activeHealthCondition?.FatAverage }} %</h6>
+                <h6 class="card-subtitle mb-2"><fa-icon [icon]="faWeightHanging"></fa-icon> Porcentaje de músculo: {{ activeHealthCondition?.MuscleAverage }} %</h6>
+                <h6 class="card-subtitle mb-2"><fa-icon [icon]="faHeartbeat"></fa-icon> Índice de masa corporal: {{ activeHealthCondition?.IMC }}</h6>
+                <h6 class="card-subtitle mb-2"><fa-icon [icon]="faThList"></fa-icon> Edad metabólica: {{ activeHealthCondition?.MetabolicAge }} años</h6>
+            </div>
+        </div> -->
+        <div class="card mt-3">
+            <div class="card-body row">
+                <h6><fa-icon [icon]="faCoins"></fa-icon> Monto</h6>
+                <p class="card-subtitle mb-2">₡ {{ activePayment?.Amount }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" (click)="d('Cancel click')"><fa-icon [icon]="faTimes"></fa-icon> Cerrar</button>
+    </div>
+</ng-template>
 
 <ng-template #modal_payment let-c="close" let-d="dismiss">
     <div class="modal-header">

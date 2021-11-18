@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as $ from 'jquery';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -14,16 +14,18 @@ export class ContainerComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private activedRoute: ActivatedRoute
   ) { 
     this.path = {
       link: 'home',
-      name: 'Inicio'
+      name: 'INICIO'
     };
   }
 
   ngOnInit(): void {
-
+    this.path.link = this.router.url;
+    this.path.name = this.router.url.replace('/', '').toUpperCase();
   }
 
   toggleMenu(event: any): void{

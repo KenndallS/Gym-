@@ -2,8 +2,8 @@
     <div class="col">
         <input class="form-control" type="text" id="search" placeholder="Número de identificación o nombre..." formControlName="search" (keyup)="filterCustomers()">
     </div>
-    <button type="button" class="btn btn-primary" (click)="filterCustomers()">O Buscar</button>
-    <button type="button" class="btn btn-success" (click)="newCustomer(modal_customer)">+ Nuevo</button>
+    <button type="button" class="btn btn-primary" (click)="filterCustomers()"><fa-icon [icon]="faSearch"></fa-icon> Buscar</button>
+    <button type="button" class="btn btn-success" (click)="newCustomer(modal_customer)"><fa-icon [icon]="faPlus"></fa-icon> Nuevo</button>
 </form>
 <table class="table table-bordered mt-3">
     <thead>
@@ -12,7 +12,6 @@
             <th>Número de identificación</th>
             <th>Nombre</th>
             <th>Apellidos</th>
-            <!-- <th>Plan de entrenamiento</th> -->
             <th>Estado</th>
             <th>Acciones</th>
         </tr>
@@ -23,11 +22,24 @@
             <td>{{ customer.Card }}</td>
             <td>{{ customer.FirstName }}</td>
             <td>{{ customer.LastName }}</td>
-            <!-- <td>{{ customer.Inscription }}</td> -->
-            <td>{{ customer.Status }}</td>
             <td>
-                <button class="btn btn-outline-secondary" (click)="editCustomer(modal_customer, customer)">Editar</button>
-                <button class="btn btn-outline-danger" (click)="deleteCustomer(customer)">{{ ((customer.Status === 'A')?'Deshabilitar':'Habilitar')}}</button>
+                <div *ngIf="customer.Status === 'A'" class="text-success">
+                    Activo <fa-icon [icon]="faCheck"></fa-icon>
+                </div>
+                <div *ngIf="customer.Status === 'I'" class="text-danger">
+                    Inactivo <fa-icon [icon]="faTimes"></fa-icon>
+                </div>
+            </td>
+            <td>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                    <button class="btn btn-outline-secondary" (click)="editCustomer(modal_customer, customer)"><fa-icon [icon]="faEdit"></fa-icon></button>
+                    <button *ngIf="customer.Status === 'I'" class="btn btn-outline-danger" (click)="deleteCustomer(customer)">
+                        <fa-icon [icon]="faToggleOff"></fa-icon>
+                    </button>
+                    <button *ngIf="customer.Status === 'A'" class="btn btn-outline-success" (click)="deleteCustomer(customer)">
+                        <fa-icon [icon]="faToggleOn"></fa-icon>
+                    </button>
+                </div>
             </td>
         </tr>
     </tbody>
@@ -85,7 +97,7 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-primary" (click)="saveCustomer()">Guardar</button>
-        <button type="button" class="btn btn-outline-danger" (click)="d('Cancel click')">Cancelar</button>
+        <button type="button" class="btn btn-outline-primary" (click)="saveCustomer()"><fa-icon [icon]="faSave"></fa-icon> Guardar</button>
+        <button type="button" class="btn btn-outline-danger" (click)="d('Cancel click')"><fa-icon [icon]="faTimes"></fa-icon> Cancelar</button>
     </div>
 </ng-template>
