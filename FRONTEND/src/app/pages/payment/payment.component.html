@@ -78,16 +78,6 @@
                 <h6 class="card-subtitle"><fa-icon [icon]="faCalendarAlt"></fa-icon> Fecha de expiración: {{ activePayment?.ExpirationDate | date: 'dd/MM/yyyy' }}</h6>
             </div>
         </div>
-        <!-- <div class="card mt-3">
-            <div class="card-body row">
-                <h6 class="card-subtitle mb-2"><fa-icon [icon]="faCoins"></fa-icon> Altura: {{ activePayment?.Amount }} m</h6>
-                <h6 class="card-subtitle mb-2"><fa-icon [icon]="faWeight"></fa-icon> Peso: {{ activeHealthCondition?.Weight }} Kg</h6>
-                <h6 class="card-subtitle mb-2"><fa-icon [icon]="faBacon"></fa-icon> Porcentaje de grasa: {{ activeHealthCondition?.FatAverage }} %</h6>
-                <h6 class="card-subtitle mb-2"><fa-icon [icon]="faWeightHanging"></fa-icon> Porcentaje de músculo: {{ activeHealthCondition?.MuscleAverage }} %</h6>
-                <h6 class="card-subtitle mb-2"><fa-icon [icon]="faHeartbeat"></fa-icon> Índice de masa corporal: {{ activeHealthCondition?.IMC }}</h6>
-                <h6 class="card-subtitle mb-2"><fa-icon [icon]="faThList"></fa-icon> Edad metabólica: {{ activeHealthCondition?.MetabolicAge }} años</h6>
-            </div>
-        </div> -->
         <div class="card mt-3">
             <div class="card-body row">
                 <h6><fa-icon [icon]="faCoins"></fa-icon> Monto</h6>
@@ -111,7 +101,7 @@
             <input type="number" formControlName="Inscription" hidden>
             <div class="col-6">
                 <label for="Amount">Monto</label>
-                <input type="number" class="form-control" id="Amount" formControlName="Amount">
+                <input type="number" class="form-control" id="Amount" formControlName="Amount" inputAmount>
             </div>
             <div class="col-6">
                 <label for="PayDate">Fecha de pago</label>
@@ -131,7 +121,7 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-primary" (click)="savePayment()">Guardar</button>
-        <button type="button" class="btn btn-outline-danger" (click)="d('Cancel click')">Cancelar</button>
+        <button type="button" class="btn btn-outline-primary" (click)="savePayment()"><fa-icon [icon]="faSave"></fa-icon> Guardar</button>
+        <button type="button" class="btn btn-outline-danger" (click)="d('Cancel click')"><fa-icon [icon]="faTimes"></fa-icon> Cancelar</button>
     </div>
 </ng-template>

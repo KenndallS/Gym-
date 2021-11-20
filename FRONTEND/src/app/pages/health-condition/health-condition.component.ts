@@ -5,7 +5,7 @@ import { faBacon, faBook, faCalendarAlt, faCheck, faEdit, faEye, faHeartbeat, fa
 import { NgbModal, NgbModalConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Customer } from 'src/app/models/customer';
 import { HealthCondition } from 'src/app/models/health-condition';
-import { AlertService } from 'src/app/services/alert.service';
+import { AlertIcon, AlertService } from 'src/app/services/alert.service';
 import { CustomerService } from 'src/app/services/customer.service';
 import { HealthConditionService } from 'src/app/services/health-condition.service';
 
@@ -109,22 +109,22 @@ export class HealthConditionComponent implements OnInit {
                 this.healthConditions = request.data;
               } else {
                 this.healthConditions = [];
-                alert(request.error); // ALERT
+                this.alertService.showNotification(AlertIcon.ERROR, request.error);
               }
             }, error => {
               this.healthConditions = [];
-              console.log(error); // ALERT
+              this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
             })
           } else {
-            alert('No existe el cliente'); // ALERT
+            this.alertService.showNotification(AlertIcon.INFO, 'No existe el cliente');
           }
         } else {
           this.healthConditions = [];
-          alert(request.error); // ALERT
+          this.alertService.showNotification(AlertIcon.ERROR, request.error);
         }
       }, error => {
         this.healthConditions = [];
-        console.log(error); // ALERT
+        this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
       });
     } else {
       this.healthConditions = [];
@@ -150,7 +150,10 @@ export class HealthConditionComponent implements OnInit {
   }
 
   saveHealthCondition(){
-    if(!this.healthConditionForm.valid) return; // ALERT
+    if(!this.healthConditionForm.valid){
+      this.alertService.showNotification(AlertIcon.WARNING, 'Formulario no válido!');
+      return;
+    }
 
     let healthCondition = this.healthConditionForm.value;
     healthCondition.Customer = (this.customer)?this.customer?.Id:null;
@@ -158,12 +161,13 @@ export class HealthConditionComponent implements OnInit {
     this.healthConditionService.save(healthCondition).subscribe(request => {
       if(request.status === 'OK'){
         this.healthConditionModalRef.close();
-        this.findHealthConditions(); // ALERT
+        this.findHealthConditions();
+        this.alertService.showNotification(AlertIcon.SUCCESS, 'Condición de salud guardada exitosamente!');
       } else {
-        alert(request.error); // ALERT
+        this.alertService.showNotification(AlertIcon.ERROR, request.error);
       }
     }, error => {
-        console.log(error); // ALERT
+      this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
     });
   }
 
@@ -172,12 +176,13 @@ export class HealthConditionComponent implements OnInit {
       let newStatus = ((healthCondition.Status === 'A')?'I':'A');
       this.healthConditionService.delete(healthCondition.Id, newStatus).subscribe(request => {
         if(request.status === 'OK'){
-          this.findHealthConditions();// ALERT
+          this.alertService.showNotification(AlertIcon.SUCCESS, (healthCondition.Status === 'A')?'Condición de salud deshabilitada':'Condición de salud habilitada');
+          this.findHealthConditions();
         } else {
-          alert(request.error); // ALERT
+          this.alertService.showNotification(AlertIcon.ERROR, request.error);
         }
       }, error => {
-        console.log(error); // ALERT
+        this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
       })
     }
   }

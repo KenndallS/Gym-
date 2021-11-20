@@ -6,7 +6,7 @@ import { NgbModal, NgbModalConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstra
 import { Customer } from 'src/app/models/customer';
 import { Inscription } from 'src/app/models/inscription';
 import { Payment } from 'src/app/models/payment';
-import { AlertService } from 'src/app/services/alert.service';
+import { AlertIcon, AlertService } from 'src/app/services/alert.service';
 import { CustomerService } from 'src/app/services/customer.service';
 import { InscriptionService } from 'src/app/services/inscription.service';
 import { PaymentService } from 'src/app/services/payment.service';
@@ -65,11 +65,10 @@ export class PaymentComponent implements OnInit {
     });
     this.payments = [];
     this.customer = undefined;
-    // this.inscription = undefined;
     this.paymentForm = this.formBuilder.group({
       Id: [0],
       Inscription: [null],
-      Amount: [0],
+      Amount: [0, Validators.required],
       PayDate: [this.datePipe.transform(new Date(), 'yyyy-MM-dd'), Validators.required],
       ExpirationDate: [this.datePipe.transform(new Date(), 'yyyy-MM-dd'), Validators.required],
       Status: ['A', Validators.required]
@@ -83,7 +82,7 @@ export class PaymentComponent implements OnInit {
     this.paymentForm = this.formBuilder.group({
       Id: [0],
       Inscription: [null],
-      Amount: [0],
+      Amount: [0, Validators.required],
       PayDate: [this.datePipe.transform(new Date(), 'yyyy-MM-dd'), Validators.required],
       ExpirationDate: [this.datePipe.transform(new Date(), 'yyyy-MM-dd'), Validators.required],
       Status: ['A', Validators.required]
@@ -101,22 +100,22 @@ export class PaymentComponent implements OnInit {
                 this.payments = request.data;
               } else {
                 this.payments = [];
-                alert(request.error); // ALERT
+                this.alertService.showNotification(AlertIcon.ERROR, request.error);
               }
             }, error => {
               this.payments = [];
-              console.log(error); // ALERT
+              this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
             })
           } else {
-            alert('No existe el cliente'); // ALERT
+            this.alertService.showNotification(AlertIcon.INFO, 'No existe el cliente');
           }
         } else {
           this.payments = [];
-          alert(request.error); // ALERT
+          this.alertService.showNotification(AlertIcon.ERROR, request.error);
         }
       }, error => {
         this.payments = [];
-        console.log(error); // ALERT
+        this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
       });
     } else {
       this.payments = [];
@@ -143,7 +142,10 @@ export class PaymentComponent implements OnInit {
   }
 
   savePayment(){
-    if(!this.paymentForm.valid) return; // ALERT
+    if(!this.paymentForm.valid){
+      this.alertService.showNotification(AlertIcon.WARNING, 'Formulario no válido!');
+      return;
+    }
 
     let payment = this.paymentForm.value;
     payment.Inscription = (this.customer)?this.customer?.Inscription:null;
@@ -151,12 +153,13 @@ export class PaymentComponent implements OnInit {
     this.paymentService.save(payment).subscribe(request => {
       if(request.status === 'OK'){
         this.paymentModalRef.close();
-        this.findPayments(); // ALERT
+        this.findPayments();
+        this.alertService.showNotification(AlertIcon.SUCCESS, 'Pago guardado exitosamente!');
       } else {
-        alert(request.error); // ALERT
+        this.alertService.showNotification(AlertIcon.ERROR, request.error);
       }
     }, error => {
-        console.log(error); // ALERT
+      this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
     });
   }
 
@@ -165,12 +168,13 @@ export class PaymentComponent implements OnInit {
       let newStatus = ((payment.Status === 'A')?'I':'A');
       this.paymentService.delete(payment.Id, newStatus).subscribe(request => {
         if(request.status === 'OK'){
-          this.findPayments();// ALERT
+          this.alertService.showNotification(AlertIcon.SUCCESS, (payment.Status === 'A')?'Pago deshabilitado':'Pago habilitado');
+          this.findPayments();
         } else {
-          alert(request.error); // ALERT
+          this.alertService.showNotification(AlertIcon.ERROR, request.error);
         }
       }, error => {
-        console.log(error); // ALERT
+        this.alertService.showAlert(AlertIcon.ERROR, 'Error', this.alertService.mapError(error));
       })
     }
   }

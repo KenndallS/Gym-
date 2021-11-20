@@ -45,7 +45,7 @@ export class TrainingPlanComponent implements OnInit {
     this.trainingPlans = [];
     this.trainingPlanForm = this.formBuilder.group({
       Id: [0],
-      Cost: [0, Validators.required],
+      Cost: [0, [Validators.required, Validators.pattern(/^[0-9.]+$/)]],
       Name: ['', Validators.required],
       Details: [''],
       Status: ['A', Validators.required]
@@ -130,8 +130,8 @@ export class TrainingPlanComponent implements OnInit {
       let newStatus = ((trainingPlan.Status === 'A')?'I':'A');
       this.trainingPlanService.delete(trainingPlan.Id, newStatus).subscribe(request => {
         if(request.status === 'OK'){
+          this.alertService.showNotification(AlertIcon.SUCCESS, (trainingPlan.Status === 'A')?'Plan de entrenamiento deshabilitado':'Plan de entrenamiento habilitado');
           this.filterTrainingPlans();
-          this.alertService.showNotification(AlertIcon.SUCCESS, 'Plan de entrenamiento deshabilitado');
         } else {
           this.alertService.showNotification(AlertIcon.ERROR, request.error);
         }

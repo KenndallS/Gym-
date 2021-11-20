@@ -53,7 +53,7 @@ class CustomerController {
     }
 
     getByCard(res, card){
-        const query = `SELECT * FROM customers WHERE Card = ${card}`;
+        const query = `SELECT * FROM customers WHERE Card = '${card}'`;
         connection.query(query, (error, result) => {
             if(error){
                 res.json({

@@ -51,7 +51,6 @@ export class UserComponent implements OnInit {
       Status: ['A', Validators.required]
     });
   }
-  // Validators.pattern(/^[a-zA-Z]+$/)
 
   ngOnInit(): void {
     this.loadUsers();
@@ -131,8 +130,8 @@ export class UserComponent implements OnInit {
       let newStatus = ((user.Status === 'A')?'I':'A');
       this.userService.delete(user.Id, newStatus).subscribe(request => {
         if(request.status === 'OK'){
+          this.alertService.showNotification(AlertIcon.SUCCESS, (user.Status === 'A')?'Usuario deshabilitado':'Usuario habilitado');
           this.filterUsers();
-          this.alertService.showNotification(AlertIcon.SUCCESS, 'Usuario deshabilitado');
         } else {
           this.alertService.showNotification(AlertIcon.ERROR, request.error);
         }

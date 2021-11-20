@@ -25,7 +25,7 @@ export class ContainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.path.link = this.router.url;
-    this.path.name = this.router.url.replace('/', '').toUpperCase();
+    this.path.name = this.router.url.replace('/', '');
   }
 
   toggleMenu(event: any): void{
@@ -36,5 +36,25 @@ export class ContainerComponent implements OnInit {
   logout(){
     this.authService.logout();
     this.router.navigate(['login'])
+  }
+
+  getViewName(path: any){
+    let name: string = '';
+    switch(path.name){
+      case 'home':
+        return 'Inicio';
+      case  'users':
+        return 'Usuarios';
+      case 'customers':
+        return 'Clientes';
+      case 'health-conditions':
+        return 'Condiciones de salud';
+      case 'payments':
+        return 'Pagos';
+      case 'taining-plans':
+        return 'Planes de entrenamiento';
+      default:
+        return ''
+    }
   }
 }

@@ -17,6 +17,7 @@ import { ContainerComponent } from './pages/container/container.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AmountDirective } from './directives/amount.directive';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     TrainingPlanComponent,
     HeaderComponent,
     LoginComponent,
-    ContainerComponent
+    ContainerComponent,
+    AmountDirective
   ],
   imports: [
     BrowserModule,

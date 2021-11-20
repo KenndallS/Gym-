@@ -224,8 +224,8 @@ export class CustomerComponent implements OnInit {
       let newStatus = ((customer.Status === 'A')?'I':'A');
       this.customerService.delete(customer.Id, newStatus).subscribe(request => {
         if(request.status === 'OK'){
+          this.alertService.showNotification(AlertIcon.SUCCESS, (customer.Status === 'A')?'Cliente deshabilitado':'Cliente habilitado');
           this.filterCustomers();
-          this.alertService.showNotification(AlertIcon.SUCCESS, 'Cliente deshabilitado');
         } else {
           this.alertService.showNotification(AlertIcon.ERROR, request.error);
         }

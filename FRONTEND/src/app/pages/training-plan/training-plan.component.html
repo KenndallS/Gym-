@@ -55,15 +55,18 @@
             <input type="number" formControlName="Id" hidden>
             <div class="col-6">
                 <label for="Cost">Costo</label>
-                <input type="text" class="form-control" id="Cost" formControlName="Cost">
+                <input type="text" class="form-control" id="Cost" formControlName="Cost" inputAmount 
+                [ngClass]="{'no-valid': trainingPlanForm.controls.Cost.invalid && (trainingPlanForm.controls.Cost.dirty || trainingPlanForm.controls.Cost.touched)}">
             </div>
             <div class="col-6">
                 <label for="Name">Nombre del plan</label>
-                <input type="text" class="form-control" id="Name" formControlName="Name">
+                <input type="text" class="form-control" id="Name" formControlName="Name"
+                [ngClass]="{'no-valid': trainingPlanForm.controls.Name.invalid && (trainingPlanForm.controls.Name.dirty || trainingPlanForm.controls.Name.touched)}">
             </div>
             <div class="col-12">
                 <label for="Details">Detalles</label>
-                <input type="text" class="form-control" id="Details" formControlName="Details">
+                <input type="text" class="form-control" id="Details" formControlName="Details" 
+                [ngClass]="{'no-valid': trainingPlanForm.controls.Details.invalid && (trainingPlanForm.controls.Details.dirty || trainingPlanForm.controls.Details.touched)}">
             </div>
             <div class="col-4">
                 <label for="Status">Estado</label>
@@ -75,7 +78,7 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-primary" (click)="saveTrainingPlan()">Guardar</button>
-        <button type="button" class="btn btn-outline-danger" (click)="d('Cancel click')">Cancelar</button>
+        <button type="button" class="btn btn-outline-primary" (click)="saveTrainingPlan()"><fa-icon [icon]="faSave"></fa-icon> Guardar</button>
+        <button type="button" class="btn btn-outline-danger" (click)="d('Cancel click')"><fa-icon [icon]="faTimes"></fa-icon> Cancelar</button>
     </div>
 </ng-template>
