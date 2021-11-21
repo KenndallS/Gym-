@@ -18,6 +18,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AmountDirective } from './directives/amount.directive';
+import { NgParticlesModule } from 'ng-particles';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { AmountDirective } from './directives/amount.directive';
     HttpClientModule,
     ReactiveFormsModule,
     NgbModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    NgParticlesModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

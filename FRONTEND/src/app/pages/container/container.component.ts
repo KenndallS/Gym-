@@ -42,7 +42,7 @@ export class ContainerComponent implements OnInit {
     let name: string = '';
     switch(path.name){
       case 'home':
-        return 'Inicio';
+        return '';
       case  'users':
         return 'Usuarios';
       case 'customers':
