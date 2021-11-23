@@ -19,6 +19,7 @@ import { DatePipe } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AmountDirective } from './directives/amount.directive';
 import { NgParticlesModule } from 'ng-particles';
+import { PhoneDirective } from './directives/phone.directive';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { NgParticlesModule } from 'ng-particles';
     HeaderComponent,
     LoginComponent,
     ContainerComponent,
-    AmountDirective
+    AmountDirective,
+    PhoneDirective
   ],
   imports: [
     BrowserModule,

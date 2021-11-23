@@ -53,7 +53,7 @@ class HealthConditionController {
     }
 
     getByCustomerId(res, id){
-        const query = `SELECT h.* FROM HealthConditions h INNER JOIN Customers c ON h.Customer = c.Id WHERE c.Id = ${id}`;
+        const query = `SELECT h.* FROM HealthConditions h INNER JOIN Customers c ON h.Customer = c.Id WHERE c.Id = ${id} ORDER BY h.Date DESC`;
         connection.query(query, (error, result) => {
             if(error){
                 res.json({

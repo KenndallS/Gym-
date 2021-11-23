@@ -1,11 +1,12 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[inputAmount]'
+  selector: '[inputPhone]'
 })
-export class AmountDirective {
+export class PhoneDirective {
+
   // Allow decimal numbers and not negative values
-  private regex: RegExp = new RegExp(/^[0-9]*\.?\d{0,4}$/g);
+  private regex: RegExp = new RegExp(/^[0-9]*\.?\d$/g);
   
   // Allow key codes for special events. Reflect :
   // Backspace, tab, end, home
